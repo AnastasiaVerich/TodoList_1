@@ -28,7 +28,7 @@ export function TodoList(props: PropsType) {
         if (title.trim() === "") {
             return setError(true)
         }
-        props.add(title.trim())
+        props.add(title.trim(), props.id)
         setTitle("")
 
     }
