@@ -10,32 +10,28 @@ export type TaskType = {
 
 }
 type PropsType = {
+
+    id: string
     title: string
+    remuveTodoList: (todolistid: string)=> void
     tasks: Array<TaskType>
     remuve: (id: string, todolistId: string) => void
     filt: (value: FilterType, id: string) => void
     add: any
     changeStatus: (taskID: string, isDone: boolean, todolistId: string) => void
     filter: FilterType
-    id: string
-    remuveTodoList: (todolistid: string)=> void
+
 }
 
 
 export function TodoList(props: PropsType) {
 
-    const addTask = () => {
-        if (title.trim() === "") {
-            return setError(true)
-        }
-        props.add(title.trim(), props.id)
-        setTitle("")
-
+    const remuveTodolist=()=> {
+        props.remuveTodoList(props.id)
     }
 
     let [title, setTitle] = useState("")
     let [error, setError] = useState(false)
-
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     }
@@ -46,12 +42,23 @@ export function TodoList(props: PropsType) {
         }
     }
 
+    const addTask = () => {
+        if (title.trim() === "") {
+            return setError(true)
+        }
+        props.add(title.trim(), props.id)
+        setTitle("")
+
+    }
+
+
+
+
+
     const onAllClickHandler = () => props.filt("all", props.id)
     const onActiveClickHandler = () => props.filt("active", props.id)
     const onComplideClickHandler = () => props.filt("complited", props.id)
-const remuveTodolist=()=> {
-        props.remuveTodoList(props.id)
-}
+
 
     return <div>
         <h3>
