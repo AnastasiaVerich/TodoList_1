@@ -2,6 +2,19 @@ import React, {useState} from 'react';
 import {v1} from 'uuid';
 import './App.css';
 import {TaskType, TodoList} from "./Todolist";
+import {AddInputForm} from "./AddItemForm";
+import {
+    AppBar,
+    Button,
+    Container,
+    Grid,
+    IconButton,
+    Menu,
+    MenuItem,
+    Paper,
+    Toolbar,
+    Typography
+} from "@material-ui/core";
 
 type TodolistType = {
     id: string
@@ -9,6 +22,9 @@ type TodolistType = {
     filter: FilterType
 }
 export type FilterType = "all" | "complited" | "active"
+type tasksType = {
+    [key: string]: TaskType[]
+}
 
 function App() {
     // генерируем айдишки
@@ -22,7 +38,7 @@ function App() {
         {id: TDid3, title: "3 Tasks", filter: "all"}
     ])
     // массив задач для тудулистов
-    let [tasksForAllTodolists, setTasksForAllTodolists] = useState({
+    let [tasksForAllTodolists, setTasksForAllTodolists] = useState<tasksType>({
         [TDid1]: [
             {id: v1(), title: "HTML", isDone: true},
             {id: v1(), title: "JS", isDone: true},
@@ -86,20 +102,69 @@ function App() {
             toDo.filter = value
             setArrayAllTodolists([...arrayAllTodolists])
         }
+    }
 
+//add новый тудулист
+    function addTodoList(title: string) {
+        let newTodoList: TodolistType = {
+            id: v1(),
+            title: title,
+            filter: "all"
+        }
+        setArrayAllTodolists([...arrayAllTodolists, newTodoList])
+        setTasksForAllTodolists({...tasksForAllTodolists, [newTodoList.id]: []})
+    }
+
+    // change title in task
+    function changeTitleTask(taskID: string, title: string, todolistId: string) {
+        //достаем нужный массив тасок по айди тудлиста
+        let tasks = tasksForAllTodolists[todolistId]
+        //находим в этом массиве нужную таску
+        let task = tasks.find(t => t.id === taskID);
+        // если таска существует, меняем ее
+        if (task) {
+            task.title = title
+            // создаем и сетамем копию обьекта, что бы реакт отрисовал
+            setTasksForAllTodolists({...tasksForAllTodolists})
+        }
     }
 
 
-
-
+    // change title in task
+    function changeTitleTodolist(title: string, todolistId: string) {
+        //достаем нужный массив тасок по айди тудлиста
+        //находим в этом массиве нужную таску
+        let td = arrayAllTodolists.find(t => t.id === todolistId);
+        // если таска существует, меняем ее
+        if (td) {
+            td.title = title
+            // создаем и сетамем копию обьекта, что бы реакт отрисовал
+            setArrayAllTodolists([...arrayAllTodolists])
+        }
+    }
 
 
     return (
 
         <div className="App">
-            {
-                arrayAllTodolists.map(
-                    (x) => {
+            <AppBar position="static">
+                <Toolbar>
+                    <IconButton edge="start" color="inherit" aria-label="menu">
+                        <MenuItem/>
+                    </IconButton>
+                    <Typography variant="h6">
+                        News
+                    </Typography>
+                    <Button color="inherit">Login</Button>
+                </Toolbar>
+            </AppBar>
+            <Container fixed>
+                <Grid container style={{padding: "30px"}}>
+                    <AddInputForm addItem={addTodoList}/>
+                </Grid>
+                <Grid container spacing={3}>
+                    {arrayAllTodolists.map
+                    ((x) => {
                         //помещаем в переменную все задачи для тудулиста(по одинаковым айди)
                         let arrayTasksForONEtodolist = tasksForAllTodolists[x.id];
                         if (x.filter === "complited") {
@@ -109,7 +174,9 @@ function App() {
                             arrayTasksForONEtodolist = arrayTasksForONEtodolist.filter(t => t.isDone === false)
                         }
 
-                        return <TodoList
+                        return<Grid item>
+                            <Paper style={{padding: "10px"}}>
+                        <TodoList
                             key={x.id}
                             id={x.id}
                             remuveTodoList={remuveTodoList}
@@ -120,11 +187,16 @@ function App() {
                             add={addTask}
                             changeStatus={changeStatus}
                             filter={x.filter}
+                            changeTitleTask={changeTitleTask}
+                            changeTitleTodolist={changeTitleTodolist}
 
                         />
+                            </Paper>
+                        </Grid>
+                    })
                     }
-                )
-            }
+                </Grid>
+            </Container>
         </div>
     );
 }
