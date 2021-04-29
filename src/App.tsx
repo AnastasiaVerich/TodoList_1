@@ -21,7 +21,7 @@ export type TodolistType = {
     filter: FilterType
 }
 export type FilterType = "all" | "complited" | "active"
-type tasksType = {
+export type tasksType = {
     [key: string]: TaskType[]
 }
 
@@ -51,8 +51,9 @@ function App() {
             {id: v1(), title: "Anastasia", isDone: true},
             {id: v1(), title: "Main", isDone: false}]
     })
+    let [filter, setFilter] = useState<FilterType>("all")
 
-
+/////////////////TODOLIST////////////////////////////
 //удалить один тудуЛист. По факту мы меняем исхоные два осноных массива(тасок и ТЛ) и заново по ним реакт отрисовывает приложение
     let remuveTodoList = (todolistid: string) => {
         debugger
@@ -63,6 +64,41 @@ function App() {
         setTasks({...tasksArray})
     }
 
+    //add новый тудулист
+    function addTodoList(title: string) {
+        let newTodoList: TodolistType = {
+            id: v1(),
+            title: title,
+            filter: "all"
+        }
+        SetTodoLists([...todolists, newTodoList])
+        setTasks({...tasksArray, [newTodoList.id]: []})
+    }
+
+    // change title in tl
+    function changeTitleTodolist(title: string, todolistId: string) {
+        //достаем нужный массив тасок по айди тудлиста
+        //находим в этом массиве нужную таску
+        let td = todolists.find(t => t.id === todolistId);
+        // если таска существует, меняем ее
+        if (td) {
+            td.title = title
+            // создаем и сетамем копию обьекта, что бы реакт отрисовал
+            SetTodoLists([...todolists])
+        }
+    }
+
+    // меняет  значение фильтра
+    function changefilters(value: FilterType, TDid: string) {
+        let toDo = todolists.find(x => x.id === TDid);
+        if (toDo) {
+            toDo.filter = value
+            SetTodoLists([...todolists])
+        }
+    }
+
+
+ ////////////////////TASKS///////////////////////////////
 
 //delete choose task
     function deleteTask(id: string, IdSelectedTL: string) {
@@ -82,38 +118,6 @@ function App() {
         setTasks({...tasksArray})
     }
 
-// change isDone task
-    function changeStatus(taskID: string, isDone: boolean, todolistId: string) {
-        let tasks = tasksArray[todolistId]
-        let task = tasks.find(t => t.id === taskID);
-        if (task) {
-            task.isDone = isDone
-            setTasks({...tasksArray})
-        }
-    }
-
-    let [filter, setFilter] = useState<FilterType>("all")
-
-// меняет  значение фильтра
-    function changefilters(value: FilterType, TDid: string) {
-        let toDo = todolists.find(x => x.id === TDid);
-        if (toDo) {
-            toDo.filter = value
-            SetTodoLists([...todolists])
-        }
-    }
-
-//add новый тудулист
-    function addTodoList(title: string) {
-        let newTodoList: TodolistType = {
-            id: v1(),
-            title: title,
-            filter: "all"
-        }
-        SetTodoLists([...todolists, newTodoList])
-        setTasks({...tasksArray, [newTodoList.id]: []})
-    }
-
     // change title in task
     function changeTitleTask(taskID: string, title: string, todolistId: string) {
         //достаем нужный массив тасок по айди тудлиста
@@ -128,19 +132,17 @@ function App() {
         }
     }
 
-
-    // change title in task
-    function changeTitleTodolist(title: string, todolistId: string) {
-        //достаем нужный массив тасок по айди тудлиста
-        //находим в этом массиве нужную таску
-        let td = todolists.find(t => t.id === todolistId);
-        // если таска существует, меняем ее
-        if (td) {
-            td.title = title
-            // создаем и сетамем копию обьекта, что бы реакт отрисовал
-            SetTodoLists([...todolists])
+// change isDone task
+    function changeStatus(taskID: string, isDone: boolean, todolistId: string) {
+        let tasks = tasksArray[todolistId]
+        let task = tasks.find(t => t.id === taskID);
+        if (task) {
+            task.isDone = isDone
+            setTasks({...tasksArray})
         }
     }
+
+
 
 
     return (
