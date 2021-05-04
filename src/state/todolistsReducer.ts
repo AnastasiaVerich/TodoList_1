@@ -1,5 +1,6 @@
 import {FilterType, TodolistType} from "../App";
 import {v1} from "uuid";
+import {store} from "./store";
 
 
 export type REMOVETODOLIST={
@@ -21,10 +22,19 @@ export type CHANGETODOLISTFILTER={
     id: string
     filter: FilterType
 }
+export let TDid1 = v1()
+export let TDid2 = v1()
+export let TDid3 = v1()
+
+const initialstate: Array<TodolistType>=[
+    {id: TDid1, title: "What to learn", filter: "active"},
+    {id: TDid2, title: "Second Tasks", filter: "complited"},
+    {id: TDid3, title: "3 Tasks", filter: "all"}
+]
 
 type common=REMOVETODOLIST | ADDTODOLIST | CHANGETODOLISTTITLE | CHANGETODOLISTFILTER
 
-export const todolistsReducer = (state: Array<TodolistType>, action: common): Array<TodolistType> => {
+export const todolistsReducer = (state: Array<TodolistType>=initialstate, action: common): Array<TodolistType> => {
     switch (action.type) {
         case "REMOVE-TODOLIST":{
            return state.filter(x => x.id !== action.id)
@@ -36,8 +46,7 @@ export const todolistsReducer = (state: Array<TodolistType>, action: common): Ar
                 filter: "all"
             }
             return ([
-                ...state,
-                newTodoList
+                newTodoList, ...state
             ])
         }
         case "CHANGE-TODOLIST-TITLE":{
@@ -55,7 +64,7 @@ export const todolistsReducer = (state: Array<TodolistType>, action: common): Ar
             return [...state]
         }
         default:
-            throw new Error("I don't understand this type")
+            return state
     }
 }
 
