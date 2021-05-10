@@ -27,9 +27,9 @@ export let TDid2 = v1()
 export let TDid3 = v1()
 
 const initialstate: Array<TodolistType>=[
-    {id: TDid1, title: "What to learn", filter: "active"},
+    /*{id: TDid1, title: "What to learn", filter: "active"},
     {id: TDid2, title: "Second Tasks", filter: "complited"},
-    {id: TDid3, title: "3 Tasks", filter: "all"}
+    {id: TDid3, title: "3 Tasks", filter: "all"}*/
 ]
 
 type common=REMOVETODOLIST | ADDTODOLIST | CHANGETODOLISTTITLE | CHANGETODOLISTFILTER

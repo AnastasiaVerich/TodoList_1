@@ -3,24 +3,8 @@ import {v1} from 'uuid';
 import './App.css';
 import {TaskType, TodoList} from "./Todolist";
 import {AddInputForm} from "./AddItemForm";
-import {
-    AppBar,
-    Button,
-    Container,
-    Grid,
-    IconButton,
-    MenuItem,
-    Paper,
-    Toolbar,
-    Typography
-} from "@material-ui/core";
-import {
-    AddTodolistAC,
-    CHANGETODOLISTFILTERAC,
-    CHANGETODOLISTTITLEAC,
-    RemoveTodolistAC,
-    todolistsReducer
-} from "./state/todolistsReducer";
+import {AppBar, Button, Container, Grid, IconButton, MenuItem, Paper, Toolbar, Typography} from "@material-ui/core";
+import {AddTodolistAC, CHANGETODOLISTFILTERAC, CHANGETODOLISTTITLEAC, RemoveTodolistAC, todolistsReducer} from "./state/todolistsReducer";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./state/tasksReducer";
 
 export type TodolistType = {

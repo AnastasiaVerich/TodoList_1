@@ -31,7 +31,7 @@ type actionType=removeTaskACType | addTaskACType | changeTaskStatusType |
     changeTaskTitleType | ADDTODOLIST | REMOVETODOLIST
 
 const initialState: tasksType= {
-    [TDid1]: [
+   /* [TDid1]: [
         {id: v1(), title: "HTML", isDone: true},
         {id: v1(), title: "JS", isDone: true},
         {id: v1(), title: "React", isDone: false},
@@ -42,7 +42,7 @@ const initialState: tasksType= {
     [TDid3]: [
         {id: v1(), title: "Ruslan", isDone: true},
         {id: v1(), title: "Anastasia", isDone: true},
-        {id: v1(), title: "Main", isDone: false}]
+        {id: v1(), title: "Main", isDone: false}]*/
 }
 
 export const tasksReducer = (state: tasksType= initialState, action: actionType): tasksType => {
@@ -63,18 +63,19 @@ export const tasksReducer = (state: tasksType= initialState, action: actionType)
             return copy
         }
         case "changeTaskStatus": {
-            const copy={...state}
-            const tasksTL=copy[action.todolistId]
-            const change=tasksTL.find(x=>x.id===action.taskID)
-            if(change) change.isDone=action.isDone
-            return copy
+            let tasks=state[action.todolistId]
+            state[action.todolistId]=tasks.map(t=>t.id===action.taskID
+            ? {...t, isDone: action.isDone}
+            : t)
+            return ({...state})
         }
         case "changeTaskTitle": {
-            const copy={...state}
-            const tasksTL=copy[action.todolistId]
-            const change=tasksTL.find(x=>x.id===action.taskID)
-           if(change) change.title=action.title
-            return copy
+            let tasks=state[action.todolistId]
+            state[action.todolistId]=tasks.map(t=>t.id===action.taskID
+                ? {...t, title: action.title}
+                : t)
+            return ({...state})
+
         }
         case "ADD-TODOLIST":{
             const copy={...state}

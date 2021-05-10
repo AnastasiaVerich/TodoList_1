@@ -10,6 +10,8 @@ import {store} from "./state/store";
 
 ReactDOM.render(<Provider store={store}>
     <AppWithRedux/>
+    {/*<AppWithReducer/>*/}
+    {/*<App/>*/}
     </Provider>
     ,  document.getElementById('root'));
 

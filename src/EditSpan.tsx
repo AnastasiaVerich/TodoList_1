@@ -6,7 +6,8 @@ type EditSpanProps = {
     onChangeTitle:any
 }
 
-export function EditSpan(props: EditSpanProps) {
+export const EditSpan=React.memo((props: EditSpanProps)=> {
+    console.log("spaaan")
 let[editMode,setEditMode]=useState(true)
     let[title,setTitle]=useState("")
     const change=()=>{
@@ -23,4 +24,4 @@ let[editMode,setEditMode]=useState(true)
             <TextField onBlur={bloor} value={title} onChange={onChangeTitle} autoFocus/>
     )
 
-}
+})

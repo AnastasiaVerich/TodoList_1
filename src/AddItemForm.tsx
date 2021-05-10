@@ -5,14 +5,15 @@ type inputFormType = {
     addItem: (title: string) => void
 }
 
-export function AddInputForm(props: inputFormType) {
+export const  AddInputForm= React.memo((props: inputFormType)=> {
+    console.log('AddItemForm')
     let [title, setTitle] = useState("")
     let [error, setError] = useState(false)
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        return setError(false)
+        if(error!==false){return setError(false)}
         if (e.charCode === 13) {
             addTask()
         }
@@ -42,4 +43,4 @@ export function AddInputForm(props: inputFormType) {
             </IconButton>
         </div>
     )
-}
+})

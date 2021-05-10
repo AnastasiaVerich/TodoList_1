@@ -1,27 +1,11 @@
-import React, {useReducer, useState} from 'react';
+import React, {useCallback} from 'react';
 import {v1} from 'uuid';
 import './App.css';
 import {TaskType, TodoList} from "./Todolist";
 import {AddInputForm} from "./AddItemForm";
-import {
-    AppBar,
-    Button,
-    Container,
-    Grid,
-    IconButton,
-    MenuItem,
-    Paper,
-    Toolbar,
-    Typography
-} from "@material-ui/core";
-import {
-    AddTodolistAC,
-    CHANGETODOLISTFILTERAC,
-    CHANGETODOLISTTITLEAC,
-    RemoveTodolistAC,
-    todolistsReducer
-} from "./state/todolistsReducer";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./state/tasksReducer";
+import {AppBar, Button, Container, Grid, IconButton, MenuItem, Paper, Toolbar, Typography} from "@material-ui/core";
+import {AddTodolistAC, CHANGETODOLISTFILTERAC, CHANGETODOLISTTITLEAC, RemoveTodolistAC,} from "./state/todolistsReducer";
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasksReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootType} from "./state/store";
 
@@ -36,6 +20,7 @@ export type tasksType = {
 }
 
 function AppWithRedux() {
+    console.log('app render')
     // генерируем айдишки
     let TDid1 = v1()
     let TDid2 = v1()
@@ -47,55 +32,55 @@ function AppWithRedux() {
 
 /////////////////TODOLIST////////////////////////////
 //удалить один тудуЛист. По факту мы меняем исхоные два осноных массива(тасок и ТЛ) и заново по ним реакт отрисовывает приложение
-    let remuveTodoList = (todolistid: string) => {
+    let remuveTodoList =useCallback((todolistid: string) => {
         const action= RemoveTodolistAC(todolistid)
         dispatch(action)
-    }
+    },[dispatch])
 
     //add новый тудулист
-    function addTodoList(title: string) {
+    const addTodoList= useCallback((title: string) =>{
         const action= AddTodolistAC(title)
         dispatch(action)
-    }
+    }, [dispatch])
 
     // change title in tl
-    function changeTitleTodolist(title: string, todolistId: string) {
+    const changeTitleTodolist=useCallback((title: string, todolistId: string) =>{
         const action= CHANGETODOLISTTITLEAC(title, todolistId)
         dispatch(action)
-    }
+    },[dispatch])
 
     // меняет  значение фильтра
-    function changefilters(value: FilterType, TDid: string) {
+    const changefilters=useCallback((value: FilterType, TDid: string)=> {
         const action= CHANGETODOLISTFILTERAC(value, TDid)
         dispatch(action)
-    }
+    },[dispatch])
 
 
  ////////////////////TASKS///////////////////////////////
 
 //delete choose task
-    function deleteTask(id: string, IdSelectedTL: string) {
+    const deleteTask=useCallback((id: string, IdSelectedTL: string)=> {
         const action= removeTaskAC(id, IdSelectedTL)
         dispatch(action)
-    }
+    },[dispatch])
 
 // add new task
-    function addTask(title: string, todolistId: string) {
+    const addTask=useCallback((title: string, todolistId: string)=> {
         const action= addTaskAC(title, todolistId)
         dispatch(action)
-    }
+    },[dispatch])
 
     // change title in task
-    function changeTitleTask(taskID: string, title: string, todolistId: string) {
+    const changeTitleTask=useCallback((taskID: string, title: string, todolistId: string)=> {
         const action= changeTaskTitleAC(taskID, title, todolistId)
         dispatch(action)
-    }
+    },[dispatch])
 
 // change isDone task
-    function changeStatus(taskID: string, isDone: boolean, todolistId: string) {
+    const changeStatus=useCallback((taskID: string, isDone: boolean, todolistId: string)=> {
         const action= changeTaskStatusAC(taskID, isDone, todolistId)
         dispatch(action)
-    }
+    },[dispatch])
 
 
 
@@ -123,12 +108,7 @@ function AppWithRedux() {
                     ((x) => {
                         //помещаем в переменную все задачи для тудулиста(по одинаковым айди)
                         let arrayTasksForONEtodolist = tasksArray[x.id];
-                        if (x.filter === "complited") {
-                            arrayTasksForONEtodolist = arrayTasksForONEtodolist.filter(t => t.isDone === true)
-                        }
-                        if (x.filter === "active") {
-                            arrayTasksForONEtodolist = arrayTasksForONEtodolist.filter(t => t.isDone === false)
-                        }
+
 
                         return<Grid item>
                             <Paper style={{padding: "10px"}}>
