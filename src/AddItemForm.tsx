@@ -1,7 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {Button, IconButton, TextField} from "@material-ui/core";
 
-type inputFormType = {
+export  type inputFormType = {
     addItem: (title: string) => void
 }
 

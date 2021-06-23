@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useState} from "react";
 import {TextField} from "@material-ui/core";
 
-type EditSpanProps = {
+export type EditSpanProps = {
     title: string
     onChangeTitle:any
 }

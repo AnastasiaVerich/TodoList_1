@@ -3,7 +3,7 @@ import {Checkbox, IconButton} from "@material-ui/core";
 import {EditSpan} from "./EditSpan";
 import {TaskType} from "./Todolist";
 
-type TASKStype = {
+export type TASKStype = {
     remuve: (id: string, todolistId: string) => void
     changeStatus: (taskID: string, isDone: boolean, todolistId: string) => void
     changeTitleTask: any

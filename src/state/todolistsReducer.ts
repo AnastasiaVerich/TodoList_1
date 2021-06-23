@@ -1,6 +1,7 @@
 import {FilterType, TodolistType} from "../App";
-import {v1} from "uuid";
+
 import {store} from "./store";
+import {v1} from "uuid";
 
 
 export type REMOVETODOLIST={
