@@ -87,5 +87,6 @@ export const CHANGETODOLISTTITLEAC = (title: string, id:string): CHANGETODOLISTT
 }
 
 export const CHANGETODOLISTFILTERAC = (filter: FilterType, id:string): CHANGETODOLISTFILTER => {
+
     return { type: 'CHANGE-TODOLIST-FILTER', id:id, filter:filter}
 }

@@ -80,6 +80,7 @@ function AppWithRedux() {
 
 // change isDone task
     const changeStatus=useCallback((taskID: string, status: TaskStatus, todolistId: string)=> {
+       debugger
         const action= changeTaskStatusAC(taskID, status, todolistId)
         dispatch(action)
     },[dispatch])
@@ -110,7 +111,12 @@ function AppWithRedux() {
                     ((x) => {
                         //помещаем в переменную все задачи для тудулиста(по одинаковым айди)
                         let arrayTasksForONEtodolist = tasksArray[x.id];
-
+                        if (x.filter === "complited") {
+                            arrayTasksForONEtodolist = arrayTasksForONEtodolist.filter(t => t.status === TaskStatus.Complited)
+                        }
+                        if (x.filter === "active") {
+                            arrayTasksForONEtodolist = arrayTasksForONEtodolist.filter(t => t.status === TaskStatus.New)
+                        }
 
                         return<Grid item>
                             <Paper style={{padding: "10px"}}>
@@ -138,5 +144,4 @@ function AppWithRedux() {
         </div>
     );
 }
-
 export default AppWithRedux;

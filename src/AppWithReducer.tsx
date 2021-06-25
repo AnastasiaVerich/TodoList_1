@@ -91,6 +91,7 @@ function AppWithReducer() {
 
     // меняет  значение фильтра
     function changefilters(value: FilterType, TDid: string) {
+
         const action= CHANGETODOLISTFILTERAC(value, TDid)
         dispatcToTodoLists(action)
     }
@@ -181,5 +182,4 @@ function AppWithReducer() {
         </div>
     );
 }
-
 export default AppWithReducer;
