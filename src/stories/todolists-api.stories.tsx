@@ -70,7 +70,7 @@ export const GetTasks = () => {
         const todolistId = '7a30aa25-8e86-4b53-b376-15e75e237c0f';
         tasksAPI.getTasks(todolistId)
             .then((res) => {
-                setState(res.data.items.map((x: any)=>x.title));
+                setState(res.data);
             })
 
     }, [])

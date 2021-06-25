@@ -1,11 +1,11 @@
 import React, {ChangeEvent, useCallback} from "react";
 import {Checkbox, IconButton} from "@material-ui/core";
 import {EditSpan} from "./EditSpan";
-import {TaskType} from "./Todolist";
+import {TaskStatus, TaskType} from "./api/todolist-api";
 
 export type TASKStype = {
     remuve: (id: string, todolistId: string) => void
-    changeStatus: (taskID: string, isDone: boolean, todolistId: string) => void
+    changeStatus: (taskID: string, status: TaskStatus, todolistId: string) => void
     changeTitleTask: any
     x: TaskType//task
     id: string//todolistID
@@ -17,12 +17,12 @@ export const Task = React.memo((props: TASKStype) => {
         props.changeTitleTask(props.x.id, title, props.id)
     },[props.x.id,props.changeTitleTask, props.id])
     const onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
-        props.changeStatus(props.x.id, e.currentTarget.checked, props.id)
+        props.changeStatus(props.x.id, e.currentTarget.checked? TaskStatus.Complited:TaskStatus.New, props.id)
     }
     return (
-        <div key={props.x.id} className={props.x.isDone ? "is-done" : ""}>
+        <div key={props.x.id} className={props.x.status===TaskStatus.Complited? "is-done" : ""}>
             <Checkbox
-                checked={props.x.isDone}
+                checked={props.x.status== TaskStatus.Complited}
                 color={"primary"}
                 onChange={onStatusChange}/>
             <EditSpan title={props.x.title}

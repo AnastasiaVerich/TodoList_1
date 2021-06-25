@@ -1,9 +1,8 @@
 import React from 'react';
-import {AddInputForm, inputFormType} from "./AddItemForm";
 import {Story} from "@storybook/react";
 import {action} from "@storybook/addon-actions";
 import {Task, TASKStype} from "./Task";
-import {TaskType} from "./Todolist";
+import {TaskPriorities, TaskStatus} from "./api/todolist-api";
 
 export default {
     title: 'Example/Task',
@@ -19,6 +18,8 @@ BaseExample.args = {
     },
     changeTitleTask: () => {
     },
-    x: {id: "1", title: "CSS", isDone: true},
+    x: {id: "1", title: "CSS", status: TaskStatus.Complited, addedDate:"", order:0
+        , priority: TaskPriorities.Hi, completed: true, todoListId:""
+        , description:"", deadline:"", startDate:"" },
     id: "10"
 };

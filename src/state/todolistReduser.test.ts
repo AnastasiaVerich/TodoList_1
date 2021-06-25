@@ -1,22 +1,24 @@
 
 import {v1} from 'uuid';
-import {FilterType, TodolistType} from '../App';
 import {
     AddTodolistAC,
     CHANGETODOLISTFILTERAC,
-    CHANGETODOLISTTITLEAC,
-    RemoveTodolistAC,
+    CHANGETODOLISTTITLEAC, FilterType,
+    RemoveTodolistAC, TodolistDomainType,
     todolistsReducer
 } from "./todolistsReducer";
+import {TodolistType} from "../api/todolist-api";
 
 test('correct todolist should be removed', () => {
 
 
     let todolistId1 = v1();
     let todolistId2 = v1();
-    const startState: Array<TodolistType> = [
-        {id: todolistId1, title: "What to learn", filter: "all"},
-        {id: todolistId2, title: "What to buy", filter: "all"}
+    const startState: Array<TodolistDomainType> = [
+        {id: todolistId1, title: "What to learn", filter: "all", addedDate: "",
+            order: 0},
+        {id: todolistId2, title: "What to buy", filter: "all", addedDate: "",
+            order: 0}
     ]
 
     const endState = todolistsReducer(startState, RemoveTodolistAC(todolistId1))
@@ -29,9 +31,11 @@ test('correct todolist should be added', () => {
     let todolistId1 = v1();
     let todolistId2 = v1();
     let newTodolistTitle = "New Todolist";
-    const startState: Array<TodolistType> = [
-        {id: todolistId1, title: "What to learn", filter: "all"},
-        {id: todolistId2, title: "What to buy", filter: "all"}
+    const startState: Array<TodolistDomainType> = [
+        {id: todolistId1, title: "What to learn", filter: "all", addedDate: "",
+            order: 0},
+        {id: todolistId2, title: "What to buy", filter: "all", addedDate: "",
+            order: 0}
     ]
 
 
@@ -46,9 +50,11 @@ test('correct todolist should change its name', () => {
     let todolistId1 = v1();
     let todolistId2 = v1();
     let newTodolistTitle = "New Todolist";
-    const startState: Array<TodolistType> = [
-        {id: todolistId1, title: "What to learn", filter: "all"},
-        {id: todolistId2, title: "What to buy", filter: "all"}
+    const startState: Array<TodolistDomainType> = [
+        {id: todolistId1, title: "What to learn", filter: "all", addedDate: "",
+            order: 0},
+        {id: todolistId2, title: "What to buy", filter: "all", addedDate: "",
+            order: 0}
     ]
     const action = CHANGETODOLISTTITLEAC(newTodolistTitle,todolistId2)
 
@@ -62,9 +68,11 @@ test('correct filter of todolist should be changed', () => {
     let todolistId1 = v1();
     let todolistId2 = v1();
     let newFilter: FilterType = "complited";
-    const startState: Array<TodolistType> = [
-        {id: todolistId1, title: "What to learn", filter: "all"},
-        {id: todolistId2, title: "What to buy", filter: "all"}
+    const startState: Array<TodolistDomainType> = [
+        {id: todolistId1, title: "What to learn", filter: "all", addedDate: "",
+            order: 0},
+        {id: todolistId2, title: "What to buy", filter: "all", addedDate: "",
+            order: 0}
     ]
     const action= CHANGETODOLISTFILTERAC(newFilter,todolistId2)
 
