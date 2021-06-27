@@ -96,7 +96,8 @@ export const todolistAPI = {
 
 export const tasksAPI = {
     getTasks(todolistId: string) {
-        const promise = instance.get<Array<TaskType>>(`todo-lists/${todolistId}/tasks`)
+        debugger
+        const promise = instance.get(`todo-lists/${todolistId}/tasks`)
         return promise
     },
     createTasks(title: string, todolistId: string) {

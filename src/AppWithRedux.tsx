@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {v1} from 'uuid';
 import './App.css';
 import {TodoList} from "./Todolist";
@@ -7,14 +7,14 @@ import {AppBar, Button, Container, Grid, IconButton, MenuItem, Paper, Toolbar, T
 import {
     AddTodolistAC,
     CHANGETODOLISTFILTERAC,
-    CHANGETODOLISTTITLEAC, FilterType,
-    RemoveTodolistAC,
+    CHANGETODOLISTTITLEAC, fetchTodolistsThunk, FilterType,
+    RemoveTodolistAC, setTodolistsAC,
     TodolistDomainType,
 } from "./state/todolistsReducer";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasksReducer";
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, fetchTasksTC, removeTaskAC} from "./state/tasksReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootType} from "./state/store";
-import {TaskStatus, TaskType} from "./api/todolist-api";
+import {TaskStatus, TaskType, todolistAPI} from "./api/todolist-api";
 
 
 export type tasksType = {
@@ -22,7 +22,19 @@ export type tasksType = {
 }
 
 function AppWithRedux() {
-    console.log('app render')
+
+    // useEffect(()=>{
+    //     todolistAPI.getTodoLists()
+    //         .then ((res)=>{
+    //             let todos = res.data
+    //             dispatch(setTodolistsAC(todos))
+    //         })
+    // },[])
+    useEffect(()=>{
+        dispatch(fetchTodolistsThunk)
+    }, [])
+
+
     // генерируем айдишки
     let TDid1 = v1()
     let TDid2 = v1()
