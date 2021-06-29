@@ -7,11 +7,18 @@ import {AppBar, Button, Container, Grid, IconButton, MenuItem, Paper, Toolbar, T
 import {
     AddTodolistAC,
     CHANGETODOLISTFILTERAC,
-    CHANGETODOLISTTITLEAC, fetchTodolistsThunk, FilterType,
+    CHANGETODOLISTTITLEAC, createTodolistTC, deleteTodolistTC, fetchTodolistsThunk, FilterType,
     RemoveTodolistAC, setTodolistsAC,
-    TodolistDomainType,
+    TodolistDomainType, updateTodolistTC,
 } from "./state/todolistsReducer";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, fetchTasksTC, removeTaskAC} from "./state/tasksReducer";
+import {
+    addTaskAC,
+    changeTaskStatusAC,
+    changeTaskTitleAC,
+    createTasksTC, deleteTaskTC,
+    fetchTasksTC,
+    removeTaskAC, updateTaskTC
+} from "./state/tasksReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootType} from "./state/store";
 import {TaskStatus, TaskType, todolistAPI} from "./api/todolist-api";
@@ -47,19 +54,19 @@ function AppWithRedux() {
 /////////////////TODOLIST////////////////////////////
 //удалить один тудуЛист. По факту мы меняем исхоные два осноных массива(тасок и ТЛ) и заново по ним реакт отрисовывает приложение
     let remuveTodoList =useCallback((todolistid: string) => {
-        const action= RemoveTodolistAC(todolistid)
+        const action= deleteTodolistTC(todolistid)
         dispatch(action)
     },[dispatch])
 
     //add новый тудулист
     const addTodoList= useCallback((title: string) =>{
-        const action= AddTodolistAC(title)
+        const action= createTodolistTC(title)
         dispatch(action)
     }, [dispatch])
 
     // change title in tl
     const changeTitleTodolist=useCallback((title: string, todolistId: string) =>{
-        const action= CHANGETODOLISTTITLEAC(title, todolistId)
+        const action= updateTodolistTC(todolistId, title)
         dispatch(action)
     },[dispatch])
 
@@ -74,19 +81,19 @@ function AppWithRedux() {
 
 //delete choose task
     const deleteTask=useCallback((id: string, IdSelectedTL: string)=> {
-        const action= removeTaskAC(id, IdSelectedTL)
+        const action= deleteTaskTC(IdSelectedTL, id)
         dispatch(action)
     },[dispatch])
 
 // add new task
     const addTask=useCallback((title: string, todolistId: string)=> {
-        const action= addTaskAC(title, todolistId)
+        const action= createTasksTC(title, todolistId)
         dispatch(action)
     },[dispatch])
 
     // change title in task
     const changeTitleTask=useCallback((taskID: string, title: string, todolistId: string)=> {
-        const action= changeTaskTitleAC(taskID, title, todolistId)
+        const action= updateTaskTC(todolistId, taskID, title)
         dispatch(action)
     },[dispatch])
 

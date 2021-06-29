@@ -83,7 +83,7 @@ export const todolistAPI = {
         return promise
     },
     createTodolist(title: string) {
-        const promise = instance.post<ResponseType<{ item: TodolistType }>>('todo-lists',
+        const promise = instance.post/*<ResponseType<{ item: TodolistType }>>*/('todo-lists',
             {title: title})
         return promise
     },
@@ -96,7 +96,6 @@ export const todolistAPI = {
 
 export const tasksAPI = {
     getTasks(todolistId: string) {
-        debugger
         const promise = instance.get(`todo-lists/${todolistId}/tasks`)
         return promise
     },

@@ -34,7 +34,7 @@ export const TodoList = React.memo((props: PropsType) => {
     useEffect(()=>{
        dispatch(fetchTasksTC(props.id))
 
-    })
+    },[dispatch])
 
     const remuveTodolist = () => {
         props.remuveTodoList(props.id)

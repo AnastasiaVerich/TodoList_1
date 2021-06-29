@@ -20,7 +20,7 @@ export type tasksType = {
 }
 
 function AppWithReducer() {
-    // генерируем айдишки
+    /*// генерируем айдишки
     let TDid1 = v1()
     let TDid2 = v1()
     let TDid3 = v1()
@@ -78,9 +78,9 @@ function AppWithReducer() {
 
     //add новый тудулист
     function addTodoList(title: string) {
-        const action= AddTodolistAC(title)
+        /!*const action= AddTodolistAC(title)
         dispatcToTodoLists(action)
-        dispatcToTasks(action)
+        dispatcToTasks(action)*!/
     }
 
     // change title in tl
@@ -123,13 +123,13 @@ function AppWithReducer() {
         dispatcToTasks(action)
     }
 
-
+*/
 
 
     return (
 
         <div className="App">
-            <AppBar position="static">
+            {/*<AppBar position="static">
                 <Toolbar>
                     <IconButton edge="start" color="inherit" aria-label="menu">
                         <MenuItem/>
@@ -178,7 +178,7 @@ function AppWithReducer() {
                     })
                     }
                 </Grid>
-            </Container>
+            </Container>*/}
         </div>
     );
 }
