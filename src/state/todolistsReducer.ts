@@ -3,6 +3,7 @@ import {v1} from "uuid";
 import {tasksAPI, todolistAPI, TodolistType} from "../api/todolist-api";
 import {Dispatch} from "redux";
 import {setTasksAC} from "./tasksReducer";
+import {setAppStatusAC} from "./app-reducer";
 
 export type SetTodolistsActionType = {
     type: 'SET-TODOLISTS'
@@ -108,35 +109,46 @@ export const CHANGETODOLISTFILTERAC = (filter: FilterType, id:string): CHANGETOD
 
     return { type: 'CHANGE-TODOLIST-FILTER', id:id, filter:filter}
 }
-export const fetchTodolistsThunk = (dispatch: Dispatch) => {
-    todolistAPI.getTodoLists()
-        .then((res) => {
-            dispatch(setTodolistsAC(res.data))
-        })
+
+export const fetchTodolistsThunk = () => {
+    return(dispatch: Dispatch)=>{
+        dispatch(setAppStatusAC('loading'))
+        todolistAPI.getTodoLists()
+            .then((res) => {
+                dispatch(setTodolistsAC(res.data))
+                dispatch(setAppStatusAC('succeeded'))
+            })
+    }
 }
 
 export const createTodolistTC = (title: string) => {
     return (dispatch: Dispatch) => {
+
+        dispatch(setAppStatusAC('loading'))
         todolistAPI.createTodolist(title)
             .then((res) => {
-                debugger
                 dispatch(AddTodolistAC(res.data.data.item.title, res.data.data.item.id))
+                dispatch(setAppStatusAC('succeeded'))
             })
     }
 }
 export const deleteTodolistTC = (todolistId: string) => {
     return (dispatch: Dispatch) => {
+        dispatch(setAppStatusAC('loading'))
         todolistAPI.deleteTodolist(todolistId)
             .then( (res) => {
                 RemoveTodolistAC(todolistId);
+                dispatch(setAppStatusAC('succeeded'))
             })
     }
 }
 export const updateTodolistTC = ( id:string, title: string) => {
     return (dispatch: Dispatch) => {
+        dispatch(setAppStatusAC('loading'))
         todolistAPI.updateTodolist(id, title)
             .then((res) => {
                 CHANGETODOLISTTITLEAC(id, title)
+                dispatch(setAppStatusAC('succeeded'))
             })
     }
 }

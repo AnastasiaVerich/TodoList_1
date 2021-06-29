@@ -47,9 +47,9 @@ export const TodoList = React.memo((props: PropsType) => {
     const addTask = useCallback((title: string) => {
         props.add(title, props.id)
     }, [props.add, props.id])
-    const onchangeTitleTodolist = useCallback((title: string) => {
+    const onchangeTitleTodolist = (title: string) => {
         props.changeTitleTodolist(title, props.id)
-    }, [props.id, props.changeTitleTodolist])
+    }
 
     let arrayTasksForONEtodolist = props.tasks
     if (props.filter === "complited") {

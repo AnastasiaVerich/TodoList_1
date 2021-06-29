@@ -7,7 +7,7 @@ export type EditSpanProps = {
 }
 
 export const EditSpan=React.memo((props: EditSpanProps)=> {
-    console.log("spaaan")
+
 let[editMode,setEditMode]=useState(true)
     let[title,setTitle]=useState("")
     const change=()=>{

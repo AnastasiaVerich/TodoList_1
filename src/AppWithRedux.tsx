@@ -3,7 +3,18 @@ import {v1} from 'uuid';
 import './App.css';
 import {TodoList} from "./Todolist";
 import {AddInputForm} from "./AddItemForm";
-import {AppBar, Button, Container, Grid, IconButton, MenuItem, Paper, Toolbar, Typography} from "@material-ui/core";
+import {
+    AppBar,
+    Button,
+    Container,
+    Grid,
+    IconButton,
+    LinearProgress,
+    MenuItem,
+    Paper,
+    Toolbar,
+    Typography
+} from "@material-ui/core";
 import {
     AddTodolistAC,
     CHANGETODOLISTFILTERAC,
@@ -20,7 +31,7 @@ import {
     removeTaskAC, updateTaskTC
 } from "./state/tasksReducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootType} from "./state/store";
+import {AppRootType, store} from "./state/store";
 import {TaskStatus, TaskType, todolistAPI} from "./api/todolist-api";
 
 
@@ -29,6 +40,7 @@ export type tasksType = {
 }
 
 function AppWithRedux() {
+    let status = store.getState().app.status
 
     // useEffect(()=>{
     //     todolistAPI.getTodoLists()
@@ -38,8 +50,9 @@ function AppWithRedux() {
     //         })
     // },[])
     useEffect(()=>{
-        dispatch(fetchTodolistsThunk)
+        dispatch(fetchTodolistsThunk())
     }, [])
+
 
 
     // генерируем айдишки
@@ -110,6 +123,7 @@ function AppWithRedux() {
     return (
 
         <div className="App">
+            { console.log("render all")}
             <AppBar position="static">
                 <Toolbar>
                     <IconButton edge="start" color="inherit" aria-label="menu">
@@ -120,6 +134,7 @@ function AppWithRedux() {
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
+                { status === 'loading' && <LinearProgress />}
             </AppBar>
             <Container fixed>
                 <Grid container style={{padding: "30px"}}>

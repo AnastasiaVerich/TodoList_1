@@ -6,7 +6,7 @@ export  type inputFormType = {
 }
 
 export const  AddInputForm= React.memo((props: inputFormType)=> {
-    console.log('AddItemForm')
+
     let [title, setTitle] = useState("")
     let [error, setError] = useState(false)
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
