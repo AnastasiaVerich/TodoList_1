@@ -33,6 +33,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootType, store} from "./state/store";
 import {TaskStatus, TaskType, todolistAPI} from "./api/todolist-api";
+import {ErrorSnackbar} from "./ErrorSnackbar";
 
 
 export type tasksType = {
@@ -42,13 +43,6 @@ export type tasksType = {
 function AppWithRedux() {
     let status = store.getState().app.status
 
-    // useEffect(()=>{
-    //     todolistAPI.getTodoLists()
-    //         .then ((res)=>{
-    //             let todos = res.data
-    //             dispatch(setTodolistsAC(todos))
-    //         })
-    // },[])
     useEffect(()=>{
         dispatch(fetchTodolistsThunk())
     }, [])
@@ -69,7 +63,7 @@ function AppWithRedux() {
     let remuveTodoList =useCallback((todolistid: string) => {
         const action= deleteTodolistTC(todolistid)
         dispatch(action)
-    },[dispatch])
+    },[])
 
     //add новый тудулист
     const addTodoList= useCallback((title: string) =>{
@@ -81,13 +75,13 @@ function AppWithRedux() {
     const changeTitleTodolist=useCallback((title: string, todolistId: string) =>{
         const action= updateTodolistTC(todolistId, title)
         dispatch(action)
-    },[dispatch])
+    },[])
 
     // меняет  значение фильтра
     const changefilters=useCallback((value: FilterType, TDid: string)=> {
         const action= CHANGETODOLISTFILTERAC(value, TDid)
         dispatch(action)
-    },[dispatch])
+    },[])
 
 
  ////////////////////TASKS///////////////////////////////
@@ -96,26 +90,25 @@ function AppWithRedux() {
     const deleteTask=useCallback((id: string, IdSelectedTL: string)=> {
         const action= deleteTaskTC(IdSelectedTL, id)
         dispatch(action)
-    },[dispatch])
+    },[])
 
 // add new task
     const addTask=useCallback((title: string, todolistId: string)=> {
         const action= createTasksTC(title, todolistId)
         dispatch(action)
-    },[dispatch])
+    },[])
 
     // change title in task
     const changeTitleTask=useCallback((taskID: string, title: string, todolistId: string)=> {
         const action= updateTaskTC(todolistId, taskID, title)
         dispatch(action)
-    },[dispatch])
+    },[])
 
 // change isDone task
     const changeStatus=useCallback((taskID: string, status: TaskStatus, todolistId: string)=> {
-       debugger
         const action= changeTaskStatusAC(taskID, status, todolistId)
         dispatch(action)
-    },[dispatch])
+    },[])
 
 
 
@@ -123,7 +116,7 @@ function AppWithRedux() {
     return (
 
         <div className="App">
-            { console.log("render all")}
+            <ErrorSnackbar/>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton edge="start" color="inherit" aria-label="menu">
@@ -138,7 +131,7 @@ function AppWithRedux() {
             </AppBar>
             <Container fixed>
                 <Grid container style={{padding: "30px"}}>
-                    <AddInputForm addItem={addTodoList}/>
+                    <AddInputForm addItem={addTodoList} />
                 </Grid>
                 <Grid container spacing={3}>
                     {todolists.map
@@ -167,6 +160,7 @@ function AppWithRedux() {
                             filter={x.filter}
                             changeTitleTask={changeTitleTask}
                             changeTitleTodolist={changeTitleTodolist}
+                            entityStatus={x.entityStatus}
 
                         />
                             </Paper>

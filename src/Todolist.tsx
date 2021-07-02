@@ -25,6 +25,7 @@ type PropsType = {
     add: any
     filter: FilterType
     changeTitleTodolist: any
+    entityStatus: any
 
 }
 
@@ -34,24 +35,27 @@ export const TodoList = React.memo((props: PropsType) => {
     useEffect(()=>{
        dispatch(fetchTasksTC(props.id))
 
-    },[dispatch])
+    },[])
+
+    const addTask = useCallback((title: string) => {
+        props.add(title, props.id)
+    }, [props.add, props.id])
 
     const remuveTodolist = () => {
         props.remuveTodoList(props.id)
     }
 
+    const onchangeTitleTodolist = useCallback((title: string) => {
+        props.changeTitleTodolist(title, props.id)
+    },[props.id, props.changeTitleTodolist])
+
 
     const onAllClickHandler = useCallback(() => props.filt("all", props.id), [props.id, props.filt])
     const onActiveClickHandler = useCallback(() => props.filt("active", props.id), [props.id, props.filt])
     const onComplideClickHandler = useCallback(() => props.filt("complited", props.id), [props.id, props.filt])
-    const addTask = useCallback((title: string) => {
-        props.add(title, props.id)
-    }, [props.add, props.id])
-    const onchangeTitleTodolist = (title: string) => {
-        props.changeTitleTodolist(title, props.id)
-    }
 
     let arrayTasksForONEtodolist = props.tasks
+
     if (props.filter === "complited") {
         arrayTasksForONEtodolist = props.tasks.filter(t => t.status === TaskStatus.Complited)
     }
@@ -61,12 +65,12 @@ export const TodoList = React.memo((props: PropsType) => {
 
     return <div>
         <h3>
-            <EditSpan onChangeTitle={onchangeTitleTodolist} title={props.title}/>
-            <IconButton onClick={remuveTodolist}><Delete/></IconButton>
+            <EditSpan onChangeTitle={onchangeTitleTodolist} title={props.title} disabled={props.entityStatus === "loading"}/>
+            <IconButton onClick={remuveTodolist} disabled={props.entityStatus === "loading"}><Delete/></IconButton>
         </h3>
-        <AddInputForm addItem={addTask}/>
+        <AddInputForm addItem={addTask} disabled={props.entityStatus === "loading"}/>
         <div>
-            {props.tasks.map(x => <Task remuve={props.remuve}
+            {arrayTasksForONEtodolist.map(x => <Task remuve={props.remuve}
                           changeStatus={props.changeStatus}
                           changeTitleTask={props.changeTitleTask}
                           x={x}

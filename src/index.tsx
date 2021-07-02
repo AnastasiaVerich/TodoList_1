@@ -8,12 +8,15 @@ import AppWithRedux from "./AppWithRedux";
 import {Provider} from "react-redux";
 import {store} from "./state/store";
 
-ReactDOM.render(<Provider store={store}>
-    <AppWithRedux/>
-    {/*<AppWithReducer/>*/}
-    {/*<App/>*/}
-    </Provider>
-    ,  document.getElementById('root'));
+ReactDOM.render(
+    <React.StrictMode>
+        <Provider store={store}>
+            <AppWithRedux/>
+            {/*<AppWithReducer/>*/}
+            {/*<App/>*/}
+        </Provider>
+    </React.StrictMode>
+    , document.getElementById('root'));
 
 
 serviceWorker.unregister();

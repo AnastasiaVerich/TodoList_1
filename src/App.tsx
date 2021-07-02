@@ -24,6 +24,7 @@ export type tasksType = {
 }
 
 function App() {
+/*
     // генерируем айдишки
     let TDid1 = v1()
     let TDid2 = v1()
@@ -164,6 +165,7 @@ function App() {
             setTasks({...tasksArray})
         }
     }
+*/
 
 
 
@@ -171,7 +173,9 @@ function App() {
     return (
 
         <div className="App">
-            <AppBar position="static">
+
+           {/*
+             <AppBar position="static">
                 <Toolbar>
                     <IconButton edge="start" color="inherit" aria-label="menu">
                         <MenuItem/>
@@ -220,7 +224,9 @@ function App() {
                     })
                     }
                 </Grid>
-            </Container>
+            </Container>*/}
+
+
         </div>
     );
 }

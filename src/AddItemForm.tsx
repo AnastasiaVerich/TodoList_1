@@ -3,6 +3,7 @@ import {Button, IconButton, TextField} from "@material-ui/core";
 
 export  type inputFormType = {
     addItem: (title: string) => void
+    disabled?: any
 }
 
 export const  AddInputForm= React.memo((props: inputFormType)=> {
@@ -38,7 +39,7 @@ export const  AddInputForm= React.memo((props: inputFormType)=> {
                 label={"Title"}
                 helperText={error}
             />
-            <IconButton onClick={addTask}  color={"primary"}>
+            <IconButton onClick={addTask}  color={"primary"} disabled={props.disabled}>
                 +
             </IconButton>
         </div>
