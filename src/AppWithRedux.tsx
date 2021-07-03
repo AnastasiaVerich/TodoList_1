@@ -1,117 +1,47 @@
-import React, {useCallback, useEffect} from 'react';
-import {v1} from 'uuid';
+import React, {useEffect} from 'react';
 import './App.css';
-import {TodoList} from "./Todolist";
-import {AddInputForm} from "./AddItemForm";
 import {
     AppBar,
-    Button,
+    Button, CircularProgress,
     Container,
     Grid,
     IconButton,
     LinearProgress,
     MenuItem,
-    Paper,
     Toolbar,
     Typography
 } from "@material-ui/core";
-import {
-    AddTodolistAC,
-    CHANGETODOLISTFILTERAC,
-    CHANGETODOLISTTITLEAC, createTodolistTC, deleteTodolistTC, fetchTodolistsThunk, FilterType,
-    RemoveTodolistAC, setTodolistsAC,
-    TodolistDomainType, updateTodolistTC,
-} from "./state/todolistsReducer";
-import {
-    addTaskAC,
-    changeTaskStatusAC,
-    changeTaskTitleAC,
-    createTasksTC, deleteTaskTC,
-    fetchTasksTC,
-    removeTaskAC, updateTaskTC
-} from "./state/tasksReducer";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootType, store} from "./state/store";
-import {TaskStatus, TaskType, todolistAPI} from "./api/todolist-api";
+import {store} from "./state/store";
+import { TaskType} from "./api/todolist-api";
 import {ErrorSnackbar} from "./ErrorSnackbar";
+import {Redirect, Route, Switch} from 'react-router-dom';
+import {Login} from "./Login";
+import TodolistList from "./TodolistList";
+import {fetchTodolistsThunk} from "./state/todolistsReducer";
+import {useDispatch} from "react-redux";
+import {initializeAppTC, logoutTC} from "./state/auth-reducer";
 
 
 export type tasksType = {
     [key: string]: TaskType[]
 }
 
-function AppWithRedux() {
-    let status = store.getState().app.status
-
+const AppWithRedux= React.memo(()=> {
     useEffect(()=>{
-        dispatch(fetchTodolistsThunk())
+       dispatch(initializeAppTC())
     }, [])
-
-
-
-    // генерируем айдишки
-    let TDid1 = v1()
-    let TDid2 = v1()
-    let TDid3 = v1()
-
     const dispatch = useDispatch()
-    const todolists =useSelector<AppRootType, Array<TodolistDomainType>>(state => state.todolists)
-    const tasksArray =useSelector<AppRootType, tasksType>(state => state.tasks)
 
-/////////////////TODOLIST////////////////////////////
-//удалить один тудуЛист. По факту мы меняем исхоные два осноных массива(тасок и ТЛ) и заново по ним реакт отрисовывает приложение
-    let remuveTodoList =useCallback((todolistid: string) => {
-        const action= deleteTodolistTC(todolistid)
-        dispatch(action)
-    },[])
+    let status = store.getState().app.status
+    let isInitialized = store.getState().login.isInitialized
 
-    //add новый тудулист
-    const addTodoList= useCallback((title: string) =>{
-        const action= createTodolistTC(title)
-        dispatch(action)
-    }, [dispatch])
+   /* if (!isInitialized) {
 
-    // change title in tl
-    const changeTitleTodolist=useCallback((title: string, todolistId: string) =>{
-        const action= updateTodolistTC(todolistId, title)
-        dispatch(action)
-    },[])
-
-    // меняет  значение фильтра
-    const changefilters=useCallback((value: FilterType, TDid: string)=> {
-        const action= CHANGETODOLISTFILTERAC(value, TDid)
-        dispatch(action)
-    },[])
-
-
- ////////////////////TASKS///////////////////////////////
-
-//delete choose task
-    const deleteTask=useCallback((id: string, IdSelectedTL: string)=> {
-        const action= deleteTaskTC(IdSelectedTL, id)
-        dispatch(action)
-    },[])
-
-// add new task
-    const addTask=useCallback((title: string, todolistId: string)=> {
-        const action= createTasksTC(title, todolistId)
-        dispatch(action)
-    },[])
-
-    // change title in task
-    const changeTitleTask=useCallback((taskID: string, title: string, todolistId: string)=> {
-        const action= updateTaskTC(todolistId, taskID, title)
-        dispatch(action)
-    },[])
-
-// change isDone task
-    const changeStatus=useCallback((taskID: string, status: TaskStatus, todolistId: string)=> {
-        const action= changeTaskStatusAC(taskID, status, todolistId)
-        dispatch(action)
-    },[])
-
-
-
+        return <div
+            style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+            <CircularProgress/>
+        </div>
+    }*/
 
     return (
 
@@ -126,50 +56,20 @@ function AppWithRedux() {
                         News
                     </Typography>
                     <Button color="inherit">Login</Button>
+                    {  <Button color="inherit" onClick={()=>{dispatch(logoutTC())}}>Log out</Button>}
                 </Toolbar>
-                { status === 'loading' && <LinearProgress />}
+                {status === 'loading' && <LinearProgress/>}
             </AppBar>
             <Container fixed>
-                <Grid container style={{padding: "30px"}}>
-                    <AddInputForm addItem={addTodoList} />
-                </Grid>
-                <Grid container spacing={3}>
-                    {todolists.map
-                    ((x) => {
-                        //помещаем в переменную все задачи для тудулиста(по одинаковым айди)
-                        let arrayTasksForONEtodolist = tasksArray[x.id];
-                        if (x.filter === "complited") {
-                            arrayTasksForONEtodolist = arrayTasksForONEtodolist.filter(t => t.status === TaskStatus.Complited)
-                        }
-                        if (x.filter === "active") {
-                            arrayTasksForONEtodolist = arrayTasksForONEtodolist.filter(t => t.status === TaskStatus.New)
-                        }
-
-                        return<Grid item>
-                            <Paper style={{padding: "10px"}}>
-                        <TodoList
-                            key={x.id}
-                            id={x.id}
-                            remuveTodoList={remuveTodoList}
-                            title={x.title}
-                            tasks={arrayTasksForONEtodolist}
-                            remuve={deleteTask}
-                            filt={changefilters}
-                            add={addTask}
-                            changeStatus={changeStatus}
-                            filter={x.filter}
-                            changeTitleTask={changeTitleTask}
-                            changeTitleTodolist={changeTitleTodolist}
-                            entityStatus={x.entityStatus}
-
-                        />
-                            </Paper>
-                        </Grid>
-                    })
-                    }
-                </Grid>
+                <Switch>
+                    <Route exact path={'/'} render={() => <TodolistList/>}/>
+                    <Route exact path={'/login'} render={() => <Login/>}/>
+                    <Route path={'/404'} render={() => <h1>404: PAGE NOT FOUND</h1>}/>
+                    <Redirect from={'*'} to={'/404'}/>
+                </Switch>
             </Container>
         </div>
     );
-}
+})
+
 export default AppWithRedux;

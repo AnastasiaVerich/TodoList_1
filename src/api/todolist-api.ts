@@ -114,3 +114,20 @@ export const tasksAPI = {
         return promise
     },
 }
+
+export const authAPI = {
+    login(email: string, password: string, rememberMe: boolean, captcha: any) {
+        const promise = instance.post(`auth/login`,
+            {email, password, rememberMe, captcha  }
+        )
+        return promise
+    },
+    me(){
+        const  promise = instance.get('auth/me')
+        return promise
+    },
+    logout(){
+        const promise = instance.delete('auth/login')
+        return promise
+    }
+}

@@ -5,12 +5,14 @@ import thunk from "redux-thunk";
 import thunkMiddleware from 'redux-thunk'
 
 import {appReducer} from "./app-reducer";
+import {authReducer} from "./auth-reducer";
 
 
 const rootReducer = combineReducers({
     todolists: todolistsReducer,
     tasks: tasksReducer,
-    app: appReducer
+    app: appReducer,
+    login: authReducer
 })
 
 export type AppRootType=ReturnType<typeof rootReducer>
