@@ -47,7 +47,7 @@ function TodolistList() {
 
     useEffect(()=>{
         if(!isLoggedIn){
-            return
+            return;
         }
         dispatch(fetchTodolistsThunk())
     }, [])
@@ -106,7 +106,8 @@ function TodolistList() {
         const action= changeTaskStatusAC(taskID, status, todolistId)
         dispatch(action)
     },[])
-    const isLoggedIn= store.getState().login.isLoggedIn
+    const isLoggedIn= useSelector<AppRootType, boolean>((state)=>state.login.isLoggedIn)
+    const isInitialized= useSelector<AppRootType, boolean>((state)=>state.app.isInitialized)
 
 
     if(!isLoggedIn){

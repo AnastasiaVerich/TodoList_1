@@ -11,15 +11,16 @@ import {
     Toolbar,
     Typography
 } from "@material-ui/core";
-import {store} from "./state/store";
+import {AppRootType, store} from "./state/store";
 import { TaskType} from "./api/todolist-api";
 import {ErrorSnackbar} from "./ErrorSnackbar";
 import {Redirect, Route, Switch} from 'react-router-dom';
 import {Login} from "./Login";
 import TodolistList from "./TodolistList";
 import {fetchTodolistsThunk} from "./state/todolistsReducer";
-import {useDispatch} from "react-redux";
-import {initializeAppTC, logoutTC} from "./state/auth-reducer";
+import {useDispatch, useSelector} from "react-redux";
+import { logoutTC} from "./state/auth-reducer";
+import {initializeAppTC} from "./state/app-reducer";
 
 
 export type tasksType = {
@@ -32,16 +33,17 @@ const AppWithRedux= React.memo(()=> {
     }, [])
     const dispatch = useDispatch()
 
-    let status = store.getState().app.status
-    let isInitialized = store.getState().login.isInitialized
+    const isInitialized= useSelector<AppRootType, boolean>((state)=>state.app.isInitialized)
+    const status= useSelector<AppRootType>((state)=>state.app.status)
 
-   /* if (!isInitialized) {
+
+    if (!isInitialized) {
 
         return <div
             style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
             <CircularProgress/>
         </div>
-    }*/
+    }
 
     return (
 
@@ -53,9 +55,8 @@ const AppWithRedux= React.memo(()=> {
                         <MenuItem/>
                     </IconButton>
                     <Typography variant="h6">
-                        News
+                        My App
                     </Typography>
-                    <Button color="inherit">Login</Button>
                     {  <Button color="inherit" onClick={()=>{dispatch(logoutTC())}}>Log out</Button>}
                 </Toolbar>
                 {status === 'loading' && <LinearProgress/>}
