@@ -33,12 +33,12 @@ const AppWithRedux= React.memo(()=> {
     }, [])
     const dispatch = useDispatch()
 
-    const isInitialized= useSelector<AppRootType, boolean>((state)=>state.app.isInitialized)
+    const isloaded= useSelector<AppRootType, boolean>((state)=>state.app.isLoaded)
     const status= useSelector<AppRootType>((state)=>state.app.status)
+    const isLoggedIn= useSelector<AppRootType, boolean>((state)=>state.login.isLoggedIn)
 
 
-    if (!isInitialized) {
-
+    if (!isloaded) {
         return <div
             style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
             <CircularProgress/>

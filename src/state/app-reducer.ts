@@ -14,7 +14,8 @@ export type SetAppErrorACType = {
 const initialState = {
     status: 'idle' as RequestStatusType,
     error: null as string | null,
-    isInitialized: false
+    isInitialized: false,
+    isLoaded: false
 }
 
 type InitialStateType = typeof initialState
@@ -27,6 +28,8 @@ export const appReducer = (state: InitialStateType = initialState, action: Actio
             return {...state, error: action.error}
         case "setIsInitializeddInAC":
             return {... state, isInitialized: action.value}
+        case "SET-IS-LOGGED-me":
+            return {...state, isLoaded: action.value}
 
         default:
             return state
@@ -40,13 +43,18 @@ export const setAppErrorAC = (error: string | null): SetAppErrorACType => {
 }
 export const setIsInitializeddInAC = (value: boolean) =>
     ({type: 'setIsInitializeddInAC', value} as const)
+export const setIsLoggedMeAC = (value: boolean) =>
+    ({type: 'SET-IS-LOGGED-me', value} as const)
+
+
 
 export const initializeAppTC = () => (dispatch: Dispatch) => {
     authAPI.me().then(res => {
         if (res.data.resultCode === 0) {
-            dispatch(setIsLoggedInAC(true))
             dispatch(setIsInitializeddInAC(true))
+            dispatch(setIsLoggedInAC(true))
         } else {
+            dispatch(setIsLoggedMeAC(true))
         }
     })
 }
