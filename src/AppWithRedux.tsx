@@ -38,7 +38,7 @@ const AppWithRedux= React.memo(()=> {
     const isLoggedIn= useSelector<AppRootType, boolean>((state)=>state.login.isLoggedIn)
 
 
-    if (!isloaded) {
+    if (!isLoggedIn && !isloaded) {
         return <div
             style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
             <CircularProgress/>
