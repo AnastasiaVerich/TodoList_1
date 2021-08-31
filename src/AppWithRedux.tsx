@@ -44,7 +44,6 @@ const AppWithRedux= React.memo(()=> {
             <CircularProgress/>
         </div>
     }
-
     return (
 
         <div className="App">

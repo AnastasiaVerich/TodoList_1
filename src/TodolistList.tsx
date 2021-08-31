@@ -54,6 +54,8 @@ function TodolistList() {
     const dispatch = useDispatch()
     const todolists =useSelector<AppRootType, Array<TodolistDomainType>>(state => state.todolists)
     const tasksArray =useSelector<AppRootType, tasksType>(state => state.tasks)
+    const isloaded= useSelector<AppRootType, boolean>((state)=>state.app.isLoaded)
+
 
 /////////////////TODOLIST////////////////////////////
 //удалить один тудуЛист. По факту мы меняем исхоные два осноных массива(тасок и ТЛ) и заново по ним реакт отрисовывает приложение
@@ -110,7 +112,7 @@ function TodolistList() {
     const isInitialized= useSelector<AppRootType, boolean>((state)=>state.app.isInitialized)
 
 
-    if(!isLoggedIn){
+    if(!isLoggedIn && isloaded){
         return <Redirect to={'/login'}/>
     }
 

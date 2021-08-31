@@ -74,9 +74,8 @@ const instance = axios.create({
 
 export const todolistAPI = {
     updateTodolist(todolistId: string, title: string) {
-        const promise = instance.put<ResponseType<{}>>(`todo-lists/${todolistId}`,
+        return instance.put<ResponseType<{}>>(`todo-lists/${todolistId}`,
             {title: title})
-        return promise
     },
     deleteTodolist(todolistId: string) {
         const promise = instance.delete<ResponseType<{}>>(`todo-lists/${todolistId}`)
