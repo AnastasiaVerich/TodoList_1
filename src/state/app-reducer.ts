@@ -1,7 +1,7 @@
-import {addTaskACType} from "./tasksReducer";
 import {Dispatch} from "redux";
 import {authAPI} from "../api/todolist-api";
 import {setIsLoggedInAC} from "./auth-reducer";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
@@ -18,9 +18,32 @@ const initialState = {
     isLoaded: false
 }
 
-type InitialStateType = typeof initialState
 
-export const appReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+const slice = createSlice({
+    name: "app",
+    initialState: initialState,
+    reducers: {
+        setAppStatusAC(state, action: PayloadAction<{ status: RequestStatusType }>) {
+            state.status = action.payload.status
+        },
+        setAppErrorAC(state, action: PayloadAction<{ error: string | null }>) {
+           state.error= action.payload.error
+        },
+        setIsInitializeddInAC(state, action: PayloadAction<{ value: boolean }>) {
+            state.isInitialized= action.payload.value
+        },
+        setIsLoggedMeAC(state, action: PayloadAction<{value: boolean }>) {
+            state.isLoaded= action.payload.value
+        }
+    }
+})
+export const setAppStatusAC =slice.actions.setAppStatusAC
+export const setAppErrorAC =slice.actions.setAppErrorAC
+export const setIsLoggedMeAC =slice.actions.setIsLoggedMeAC
+export const setIsInitializeddInAC =slice.actions.setIsInitializeddInAC
+
+export const appReducer=slice.reducer
+/*export const appReducer1 = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case 'APP/SET-STATUS':
             return {...state, status: action.status}
@@ -34,7 +57,8 @@ export const appReducer = (state: InitialStateType = initialState, action: Actio
         default:
             return state
     }
-}
+}*/
+/*
 export const setAppStatusAC = (status: string) => {
     return {type: "APP/SET-STATUS", status}
 }
@@ -46,17 +70,17 @@ export const setIsInitializeddInAC = (value: boolean) =>
 export const setIsLoggedMeAC = (value: boolean) =>
     ({type: 'SET-IS-LOGGED-me', value} as const)
 
+*/
 
 
 export const initializeAppTC = () => (dispatch: Dispatch) => {
     authAPI.me().then(res => {
         if (res.data.resultCode === 0) {
-            dispatch(setIsInitializeddInAC(true))
-            dispatch(setIsLoggedInAC(true))
+            dispatch(setIsInitializeddInAC({value:true}))
+            dispatch(setIsLoggedInAC({value: true}))
         } else {
-            dispatch(setIsLoggedMeAC(true))
+            dispatch(setIsLoggedMeAC({value:true}))
         }
     })
 }
 
-type ActionsType = any

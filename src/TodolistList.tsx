@@ -78,7 +78,7 @@ function TodolistList() {
 
     // меняет  значение фильтра
     const changefilters=useCallback((value: FilterType, TDid: string)=> {
-        const action= CHANGETODOLISTFILTERAC(value, TDid)
+        const action= CHANGETODOLISTFILTERAC({filter:value, id:TDid})
         dispatch(action)
     },[])
 
@@ -105,7 +105,7 @@ function TodolistList() {
 
 // change isDone task
     const changeStatus=useCallback((taskID: string, status: TaskStatus, todolistId: string)=> {
-        const action= changeTaskStatusAC(taskID, status, todolistId)
+        const action= changeTaskStatusAC({taskID:taskID, status:status, todolistId:todolistId})
         dispatch(action)
     },[])
     const isLoggedIn= useSelector<AppRootType, boolean>((state)=>state.login.isLoggedIn)

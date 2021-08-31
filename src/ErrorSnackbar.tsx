@@ -19,9 +19,9 @@ export function ErrorSnackbar() {
 
     const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
         if (reason === 'click') {
-            return dispatch(setAppErrorAC(null))
+            return dispatch(setAppErrorAC({error:null}))
         }
-        setTimeout(()=>{dispatch(setAppErrorAC(null))},0)
+        setTimeout(()=>{dispatch(setAppErrorAC({error:null}))},0)
     }
 
     return (
