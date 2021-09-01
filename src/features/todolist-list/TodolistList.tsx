@@ -32,10 +32,11 @@ import {
 } from "./tasksReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootType, store} from "../../app/store";
-import {TaskStatus, TaskType, todolistAPI} from "../../api/todolist-api";
+import { todolistAPI} from "../../api/todolist-api";
 import {ErrorSnackbar} from "../../components/error-snack-bar/ErrorSnackbar";
 import {Redirect, Route} from 'react-router-dom';
 import {Login} from "../auth/Login";
+import {TaskStatus, TaskType} from "../../api/types";
 
 
 export type tasksType = {

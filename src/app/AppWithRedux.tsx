@@ -12,7 +12,6 @@ import {
     Typography
 } from "@material-ui/core";
 import {AppRootType, store} from "./store";
-import { TaskType} from "../api/todolist-api";
 import {ErrorSnackbar} from "../components/error-snack-bar/ErrorSnackbar";
 import {Redirect, Route, Switch} from 'react-router-dom';
 import {Login} from "../features/auth/Login";
@@ -21,6 +20,7 @@ import {fetchTodolistsThunk} from "../features/todolist-list/todolistsReducer";
 import {useDispatch, useSelector} from "react-redux";
 import { logoutTC} from "../features/auth/auth-reducer";
 import {initializeAppTC} from "../features/application/app-reducer";
+import {TaskType} from "../api/types";
 
 
 export type tasksType = {

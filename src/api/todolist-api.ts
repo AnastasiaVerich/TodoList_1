@@ -1,66 +1,8 @@
 import axios from 'axios'
+import {GetTasksResponse, TaskType, TodolistType, ResponseType} from "./types";
 
-export type TodolistType = {
-    id: string
-    addedDate: string
-    order: number
-    title: string
-}
-export type ResponseType<D> = {
-    resultCode: number
-    messages: Array<string>
-    data: D
-}
 
-export enum TaskStatus {
-    New,
-    InProgress,
-    Complited,
-    Draft
 
-}
-
-export enum TaskPriorities {
-    Low = 0,
-    Middle,
-    Hi,
-    Urgently,
-    Later
-}
-
-/*
-status: TaskStatus.Complited, addedDate:"", order:0
-                , priority: TaskPriorities.Hi, completed: true, todoListId:""
-                , description:"", deadline:"", startDate:"" }
-                */
-
-/*
-addedDate: "",
-order: 0
- */
-
-export type TaskType = {
-    description: string
-    title: string
-    completed: boolean
-    status: TaskStatus
-    priority: TaskPriorities
-    startDate: string
-    deadline: string
-    id: string
-    todoListId: string
-    order: number
-    addedDate: string
-}
-type UpdateTaskMode = {
-    description: string
-    title: string
-    status: number
-    priority: number
-    startDate: string
-    deadline: string
-
-}
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
@@ -74,20 +16,20 @@ const instance = axios.create({
 
 export const todolistAPI = {
     updateTodolist(todolistId: string, title: string) {
-        return instance.put<ResponseType<{}>>(`todo-lists/${todolistId}`,
+        return instance.put<ResponseType>(`todo-lists/${todolistId}`,
             {title: title})
     },
     deleteTodolist(todolistId: string) {
-        const promise = instance.delete<ResponseType<{}>>(`todo-lists/${todolistId}`)
+        const promise = instance.delete<ResponseType>(`todo-lists/${todolistId}`)
         return promise
     },
     createTodolist(title: string) {
-        const promise = instance.post/*<ResponseType<{ item: TodolistType }>>*/('todo-lists',
+        const promise = instance.post<ResponseType<{ item: TodolistType }>>('todo-lists',
             {title: title})
         return promise
     },
     getTodoLists() {
-        const promise = instance.get<Array<TodolistType>>('todo-lists')
+        const promise = instance.get<TodolistType[]>('todo-lists')
         return promise
 
     }
@@ -95,38 +37,36 @@ export const todolistAPI = {
 
 export const tasksAPI = {
     getTasks(todolistId: string) {
-        const promise = instance.get(`todo-lists/${todolistId}/tasks`)
+        const promise = instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`)
         return promise
     },
     createTasks(title: string, todolistId: string) {
-        const promise = instance.post(`todo-lists/${todolistId}/tasks`,
+        const promise = instance.post<ResponseType<{ item: TaskType}>>(`todo-lists/${todolistId}/tasks`,
             {title: title})
         return promise
     },
     updateTask(todolistId: string, taskId: string, title: string) {
-        const promise = instance.put(`todo-lists/${todolistId}/tasks/${taskId}`,
+        const promise = instance.put<ResponseType<TaskType>>(`todo-lists/${todolistId}/tasks/${taskId}`,
             {title: title})
         return promise
     },
     deleteTask(todolistId: string, taskId: string) {
-        const promise = instance.delete(`todo-lists/${todolistId}/tasks/${taskId}`)
+        const promise = instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
         return promise
     },
 }
 
 export const authAPI = {
     login(email: string, password: string, rememberMe: boolean, captcha: any) {
-        const promise = instance.post(`auth/login`,
+        const promise = instance.post<ResponseType<{userId?: number}>>(`auth/login`,
             {email, password, rememberMe, captcha  }
         )
         return promise
     },
     me(){
-        const  promise = instance.get('auth/me')
-        return promise
+        return instance.get<ResponseType<{ id: number; email: string; login: string }>>('auth/me')
     },
     logout(){
-        const promise = instance.delete('auth/login')
-        return promise
+        return instance.delete<ResponseType<{userId?: number}>>('auth/login')
     }
 }

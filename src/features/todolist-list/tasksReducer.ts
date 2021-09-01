@@ -1,9 +1,10 @@
-import {TaskPriorities, tasksAPI, TaskStatus, TaskType, todolistAPI} from "../../api/todolist-api";
 import {Dispatch} from "redux";
 import { setAppStatusAC} from "../application/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AddTodolistAC, RemoveTodolistAC, setTodolistsAC} from "./todolistsReducer";
+import {TaskPriorities, TaskStatus, TaskType} from "../../api/types";
+import {tasksAPI} from "../../api/todolist-api";
 
 
 

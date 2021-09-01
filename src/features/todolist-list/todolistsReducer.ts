@@ -1,10 +1,11 @@
 import {store} from "../../app/store";
 import {v1} from "uuid";
-import {tasksAPI, todolistAPI, TodolistType} from "../../api/todolist-api";
+import {tasksAPI, todolistAPI} from "../../api/todolist-api";
 import {Dispatch} from "redux";
 import {RequestStatusType, setAppStatusAC} from "../application/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {TodolistType} from "../../api/types";
 
 export type SetTodolistsActionType = {
     type: 'SET-TODOLISTS'

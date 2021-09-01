@@ -5,10 +5,10 @@ import {EditSpan} from "../../../components/editable-span/EditSpan";
 import {Button, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {Task} from "./task/Task";
-import {TaskStatus, TaskType} from "../../../api/todolist-api";
 import { FilterType} from "../todolistsReducer";
 import {fetchTasksTC} from "../tasksReducer";
 import {useDispatch} from "react-redux";
+import {TaskStatus, TaskType} from "../../../api/types";
 
 
 type PropsType = {
