@@ -13,7 +13,7 @@ const rootReducer = combineReducers({
     todolists: todolistsReducer,
     tasks: tasksReducer,
     app: appReducer,
-    login: authReducer
+    auth: authReducer
 })
 export type RootReducerType=typeof rootReducer
 

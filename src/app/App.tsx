@@ -34,7 +34,7 @@ const App= React.memo(()=> {
     const dispatch = useDispatch()
 
     const isloaded= useSelector<AppRootType, boolean>((state)=>state.app.isLoaded)
-    const isLoggedIn= useSelector<AppRootType, boolean>((state)=>state.login.isLoggedIn)
+    const isLoggedIn= useSelector<AppRootType, boolean>((state)=>state.auth.isLoggedIn)
 
 
     if (!isLoggedIn && !isloaded) {

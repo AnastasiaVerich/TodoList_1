@@ -110,7 +110,7 @@ function TodolistList() {
 //         const action= changeTaskStatusAC({taskID:taskID, status:status, todolistId:todolistId})
 //         dispatch(action)
 //     },[])
-    const isLoggedIn= useSelector<AppRootType, boolean>((state)=>state.login.isLoggedIn)
+    const isLoggedIn= useSelector<AppRootType, boolean>((state)=>state.auth.isLoggedIn)
     const isInitialized= useSelector<AppRootType, boolean>((state)=>state.app.isInitialized)
 
 

@@ -2,13 +2,14 @@ import {authAPI} from "../../api/todolist-api";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {appActions} from "../common-actions/App";
+import {FieldErrorType, LoginParamsType} from "../../api/types";
 
 const {setAppStatus} = appActions
 
 export const loginTC = createAsyncThunk('auth/login', async (param:{email: string, password: string, rememberMe: boolean, captcha: any}, thunkAPI) => {
     thunkAPI.dispatch(setAppStatus({status:'loading'}))
     try{
-    const res = await authAPI.login(param.email, param.password, param.rememberMe, param.captcha)
+    const res = await authAPI.auth(param.email, param.password, param.rememberMe, param.captcha)
             if (res.data.resultCode === 0){
                 thunkAPI.dispatch(setAppStatus({status:'succeeded'}))
                 return

@@ -1,10 +1,17 @@
+export type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha?: string
+}
+
 export type TodolistType = {
     id: string
     addedDate: string
     order: number
     title: string
 }
- type FieldErrorType = { field: string; error: string }
+ export type FieldErrorType = { field: string; error: string }
 export type GetTasksResponse = {
     error: string | null
     totalCount: number

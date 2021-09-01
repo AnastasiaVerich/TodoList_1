@@ -63,7 +63,7 @@ export const tasksAPI = {
 }
 
 export const authAPI = {
-    login(email: string, password: string, rememberMe: boolean, captcha: any) {
+    auth(email: string, password: string, rememberMe: boolean, captcha: any) {
         const promise = instance.post<ResponseType<{userId?: number}>>(`auth/login`,
             {email, password, rememberMe, captcha  }
         )

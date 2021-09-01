@@ -1,46 +1,42 @@
 import React from 'react'
 import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, TextField, Button, Grid} from '@material-ui/core'
-import {useFormik} from "formik";
+import {FormikHelpers, useFormik} from "formik";
 import { loginTC} from "./auth-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootType, store} from "../../app/store";
-import {TodolistDomainType} from "../todolist-list/todolistsReducer";
+import {AppRootType} from "../../app/store";
 import {Redirect} from "react-router-dom";
 
-export const Login = React.memo(() => {
+
+type FormValuesType = {
+    email: string
+    password: string
+    rememberMe: boolean
+}
+export const Login = () => {
     const dispatch = useDispatch()
 
-
-    const isLoggedIn= useSelector<AppRootType, boolean>((state)=>state.login.isLoggedIn)
-
-    type FormikErrorType = {
-        email?: string
-        password?: string
-        rememberMe?: boolean
-    }
+    const isLoggedIn= useSelector<AppRootType, boolean>((state)=>state.auth.isLoggedIn)
 
     const formik = useFormik({
+
+        validate: (values) => {
+            if (!values.email) {
+                return {
+                    email: 'Email is required'
+                }
+            }
+            if(!values.password){
+                return {
+                    password: 'Password is required'
+                }
+            }
+        },
         initialValues: {
             email: '',
             password: '',
             rememberMe: false
         },
-        validate: (values) => {
-            const errors: FormikErrorType = {};
-            if (!values.email) {
-                errors.email = 'Required';
-            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-                errors.email = 'Invalid email address';
-            }
-            if(!values.password){
-                errors.password='Required';
-            } else if (values.password.length<1) {
-                errors.password = ' короткий пароль'
-            }
-            return errors;
-        },
-
-        onSubmit: values => {
+        onSubmit: async (values: FormValuesType, formikHelpers: FormikHelpers<FormValuesType>) => {
             dispatch(loginTC({email:values.email,password: values.password,rememberMe: values.rememberMe,captcha: ""}))
             formik.resetForm()
         },
@@ -96,5 +92,5 @@ export const Login = React.memo(() => {
             </form>
         </Grid>
     </Grid>
-})
+}
 
