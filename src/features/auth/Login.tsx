@@ -1,7 +1,7 @@
 import React from 'react'
 import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, TextField, Button, Grid} from '@material-ui/core'
 import {useFormik} from "formik";
-import {InitialStateAuthType, loginTC} from "./auth-reducer";
+import { loginTC} from "./auth-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootType, store} from "../../app/store";
 import {TodolistDomainType} from "../todolist-list/todolistsReducer";
@@ -41,7 +41,7 @@ export const Login = React.memo(() => {
         },
 
         onSubmit: values => {
-            dispatch(loginTC(values.email, values.password, values.rememberMe, ""))
+            dispatch(loginTC({email:values.email,password: values.password,rememberMe: values.rememberMe,captcha: ""}))
             formik.resetForm()
         },
     })

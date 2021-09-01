@@ -23,18 +23,17 @@ import {initializeAppTC} from "../features/application/app-reducer";
 import {TaskType} from "../api/types";
 
 
-export type tasksType = {
-    [key: string]: TaskType[]
-}
 
-const AppWithRedux= React.memo(()=> {
+
+const App= React.memo(()=> {
+    const status= useSelector<AppRootType>((state)=>state.app.status)
+
     useEffect(()=>{
        dispatch(initializeAppTC())
     }, [])
     const dispatch = useDispatch()
 
     const isloaded= useSelector<AppRootType, boolean>((state)=>state.app.isLoaded)
-    const status= useSelector<AppRootType>((state)=>state.app.status)
     const isLoggedIn= useSelector<AppRootType, boolean>((state)=>state.login.isLoggedIn)
 
 
@@ -72,4 +71,4 @@ const AppWithRedux= React.memo(()=> {
     );
 })
 
-export default AppWithRedux;
+export default App;

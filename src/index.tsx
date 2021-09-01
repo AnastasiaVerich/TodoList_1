@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import './index.css';
-import AppWithRedux from "./app/AppWithRedux";
+import App from "./app/App";
 import {Provider} from "react-redux";
 import {store} from "./app/store";
 import {BrowserRouter} from "react-router-dom";
@@ -10,7 +10,7 @@ ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
             <BrowserRouter>
-            <AppWithRedux/>
+            <App/>
             {/*<AppWithReducer/>*/}
             {/*<App/>*/}
             </BrowserRouter>

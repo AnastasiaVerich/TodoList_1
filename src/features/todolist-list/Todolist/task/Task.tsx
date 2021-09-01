@@ -16,6 +16,7 @@ export const Task = React.memo((props: TASKStype) => {
     const onChangeTitle = useCallback((title: string) => {
         props.changeTitleTask(props.x.id, title, props.id)
     },[props.x.id,props.changeTitleTask, props.id])
+
     const onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
         props.changeStatus(props.x.id, e.currentTarget.checked? TaskStatus.Complited:TaskStatus.New, props.id)
     }

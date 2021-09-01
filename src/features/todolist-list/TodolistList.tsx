@@ -16,19 +16,15 @@ import {
     Typography
 } from "@material-ui/core";
 import {
-    AddTodolistAC,
+
     CHANGETODOLISTFILTERAC,
-    CHANGETODOLISTTITLEAC, createTodolistTC, deleteTodolistTC, fetchTodolistsThunk, FilterType,
-    RemoveTodolistAC, setTodolistsAC,
+     createTodolistTC, deleteTodolistTC, fetchTodolistsThunk, FilterType,
     TodolistDomainType, updateTodolistTC,
 } from "./todolistsReducer";
 import {
-    addTaskAC,
-    changeTaskStatusAC,
-    changeTaskTitleAC,
+
     createTasksTC, deleteTaskTC,
-    fetchTasksTC,
-    removeTaskAC, updateTaskTC
+    fetchTasksTC, updateTaskStatusTC, updateTaskTC
 } from "./tasksReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootType, store} from "../../app/store";
@@ -73,7 +69,7 @@ function TodolistList() {
 
     // change title in tl
     const changeTitleTodolist=useCallback((title: string, todolistId: string) =>{
-        const action= updateTodolistTC(todolistId, title)
+        const action= updateTodolistTC({id:todolistId, title:title})
         dispatch(action)
     },[])
 
@@ -87,28 +83,33 @@ function TodolistList() {
     ////////////////////TASKS///////////////////////////////
 
 //delete choose task
-    const deleteTask=useCallback((id: string, IdSelectedTL: string)=> {
-        const action= deleteTaskTC(IdSelectedTL, id)
+    const deleteTask=useCallback(( taskID: string,todolistId: string)=> {
+        const action= deleteTaskTC({todolistId, taskID})
         dispatch(action)
     },[])
 
 // add new task
     const addTask=useCallback((title: string, todolistId: string)=> {
-        const action= createTasksTC(title, todolistId)
+        const action= createTasksTC({title, todolistId})
         dispatch(action)
     },[])
 
     // change title in task
     const changeTitleTask=useCallback((taskID: string, title: string, todolistId: string)=> {
-        const action= updateTaskTC(todolistId, taskID, title)
+        const action= updateTaskTC({todolistId:todolistId, taskId:taskID, title:title})
+        dispatch(action)
+    },[])
+    // change status in task
+    const changeStatus=useCallback((taskID: string, status: any, todolistId: string)=> {
+        const action= updateTaskStatusTC({todolistId:todolistId, taskId:taskID,status:status})
         dispatch(action)
     },[])
 
 // change isDone task
-    const changeStatus=useCallback((taskID: string, status: TaskStatus, todolistId: string)=> {
-        const action= changeTaskStatusAC({taskID:taskID, status:status, todolistId:todolistId})
-        dispatch(action)
-    },[])
+//     const changeStatus=useCallback((taskID: string, status: TaskStatus, todolistId: string)=> {
+//         const action= changeTaskStatusAC({taskID:taskID, status:status, todolistId:todolistId})
+//         dispatch(action)
+//     },[])
     const isLoggedIn= useSelector<AppRootType, boolean>((state)=>state.login.isLoggedIn)
     const isInitialized= useSelector<AppRootType, boolean>((state)=>state.app.isInitialized)
 
