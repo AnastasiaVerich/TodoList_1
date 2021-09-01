@@ -6,7 +6,7 @@ import {Button, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {Task} from "./Task";
 import {TaskStatus, TaskType} from "./api/todolist-api";
-import {fetchTodolistsThunk, FilterType} from "./state/todolistsReducer";
+import { FilterType} from "./state/todolistsReducer";
 import {fetchTasksTC} from "./state/tasksReducer";
 import {useDispatch} from "react-redux";
 

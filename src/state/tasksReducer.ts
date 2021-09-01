@@ -1,47 +1,14 @@
 import {TaskPriorities, tasksAPI, TaskStatus, TaskType, todolistAPI} from "../api/todolist-api";
-import {tasksType} from "../App";
 import {Dispatch} from "redux";
 import { setAppStatusAC} from "./app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AddTodolistAC, RemoveTodolistAC, setTodolistsAC} from "./todolistsReducer";
-import {action} from "@storybook/addon-actions";
-
-/*
-export type SetTasksActionType = {
-    type: 'SET-TASKS'
-    tasks: Array<TaskType>
-    todolistId: string
-}
-
-export type removeTaskACType = {
-    type: "removeTask"
-    todolistId: string
-    taskID: string
-}
-export type addTaskACType = {
-    type: "addTask"
-    title: string
-    todolistId: string
-    taskId: string
-}
-export type changeTaskStatusType = {
-    type: "changeTaskStatus"
-    todolistId: string
-    status: TaskStatus
-    taskID: string
-}
-export type changeTaskTitleType = {
-    type: "changeTaskTitle"
-    todolistId: string
-    title: string
-    taskID: string
-}
-*/
 
 
 
-const initialState: tasksType = {
+
+const initialState: any = {
 }
 const slice = createSlice({
     name: "tasks",
@@ -52,7 +19,7 @@ const slice = createSlice({
         },
         removeTaskAC(state, action:PayloadAction<{todolistId: string, taskID: string}>){
             const tasks=state[action.payload.todolistId]
-            const index= tasks.findIndex(x => x.id === action.payload.taskID)
+            const index= tasks.findIndex((x:any )=> x.id === action.payload.taskID)
             if(index>-1){
                 tasks.splice(index,1)
             }
@@ -68,14 +35,14 @@ const slice = createSlice({
         },
         changeTaskStatusAC(state, action:PayloadAction<{ taskID: string, status: TaskStatus, todolistId: string}>){
             const task=state[action.payload.todolistId]
-            const index = task.findIndex(t=>t.id === action.payload.taskID)
+            const index = task.findIndex((t:any)=>t.id === action.payload.taskID)
             if(index>-1){
                 task[index].status=action.payload.status
             }
         },
         changeTaskTitleAC(state, action:PayloadAction<{todolistId: string, taskID: string, title: string}>){
             const task=state[action.payload.todolistId]
-            const index = task.findIndex(t=>t.id === action.payload.taskID)
+            const index = task.findIndex((t:any)=>t.id === action.payload.taskID)
             if(index>-1){
                 task[index].title=action.payload.title
             }
@@ -94,11 +61,6 @@ const slice = createSlice({
             })
         });
     }
-/*:{
-        [setTodolistsAC.type]: (state, action:PayloadAction<{}>)=>{},
-        [AddTodolistAC.type]: (state, action:PayloadAction<{}>)=>{},
-        [RemoveTodolistAC.type]: (state, action:PayloadAction<{}>)=>{}
-    }*/
 })
 export const setTasksAC =slice.actions.setTasksAC
 export const removeTaskAC =slice.actions.removeTaskAC
@@ -106,18 +68,11 @@ export const addTaskAC =slice.actions.addTaskAC
 export const changeTaskStatusAC =slice.actions.changeTaskStatusAC
 export const changeTaskTitleAC =slice.actions.changeTaskTitleAC
 
+
 export const tasksReducer=slice.reducer
 
 
-// export const addTaskAC = (title: string, taskId: string,todolistId: string): addTaskACType => {
-//     return {type: 'addTask', title: title, todolistId,taskId }
-// }
-// export const changeTaskStatusAC = (taskID: string, status: TaskStatus, todolistId: string): changeTaskStatusType => {
-//     return {type: 'changeTaskStatus', taskID, status, todolistId}
-// }
-// export const changeTaskTitleAC = (todolistId: string, taskID: string, title: string): changeTaskTitleType => {
-//     return {type: 'changeTaskTitle', taskID, title, todolistId}
-// }
+
 
 export const fetchTasksTC = (todolistId: string) => {
     return (dispatch: Dispatch) => {

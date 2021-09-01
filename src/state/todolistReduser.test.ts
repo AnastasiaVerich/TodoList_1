@@ -16,12 +16,12 @@ test('correct todolist should be removed', () => {
     let todolistId2 = v1();
     const startState: Array<TodolistDomainType> = [
         {id: todolistId1, title: "What to learn", filter: "all", addedDate: "",
-            order: 0},
+            order: 0, entityStatus: 'idle'},
         {id: todolistId2, title: "What to buy", filter: "all", addedDate: "",
-            order: 0}
+            order: 0, entityStatus: 'idle'}
     ]
 
-    const endState = todolistsReducer(startState, RemoveTodolistAC(todolistId1))
+    const endState = todolistsReducer(startState, RemoveTodolistAC({id:todolistId1}))
 
     expect(endState.length).toBe(1);
     expect(endState[0].id).toBe(todolistId2);
@@ -33,13 +33,13 @@ test('correct todolist should be added', () => {
     let newTodolistTitle = "New Todolist";
     const startState: Array<TodolistDomainType> = [
         {id: todolistId1, title: "What to learn", filter: "all", addedDate: "",
-            order: 0},
+            order: 0, entityStatus: 'idle'},
         {id: todolistId2, title: "What to buy", filter: "all", addedDate: "",
-            order: 0}
+            order: 0, entityStatus: 'idle'}
     ]
 
 
-    const endState = todolistsReducer(startState, AddTodolistAC(newTodolistTitle))
+    const endState = todolistsReducer(startState, AddTodolistAC({title:newTodolistTitle, id:""}))
 
 
     expect(endState.length).toBe(3);
@@ -52,11 +52,11 @@ test('correct todolist should change its name', () => {
     let newTodolistTitle = "New Todolist";
     const startState: Array<TodolistDomainType> = [
         {id: todolistId1, title: "What to learn", filter: "all", addedDate: "",
-            order: 0},
+            order: 0, entityStatus: 'idle'},
         {id: todolistId2, title: "What to buy", filter: "all", addedDate: "",
-            order: 0}
+            order: 0, entityStatus: 'idle'}
     ]
-    const action = CHANGETODOLISTTITLEAC(newTodolistTitle,todolistId2)
+    const action = CHANGETODOLISTTITLEAC({title:newTodolistTitle, id:todolistId2})
 
     const endState = todolistsReducer(startState, action);
 
@@ -70,11 +70,11 @@ test('correct filter of todolist should be changed', () => {
     let newFilter: FilterType = "complited";
     const startState: Array<TodolistDomainType> = [
         {id: todolistId1, title: "What to learn", filter: "all", addedDate: "",
-            order: 0},
+            order: 0, entityStatus: 'idle'},
         {id: todolistId2, title: "What to buy", filter: "all", addedDate: "",
-            order: 0}
+            order: 0, entityStatus: 'idle'}
     ]
-    const action= CHANGETODOLISTFILTERAC(newFilter,todolistId2)
+    const action= CHANGETODOLISTFILTERAC({filter:newFilter, id: todolistId2})
 
     const endState = todolistsReducer(startState, action);
 

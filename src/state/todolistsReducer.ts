@@ -80,51 +80,6 @@ const slice = createSlice({
 })
 
 export const todolistsReducer =slice.reducer
-// export const _todolistsReducer = (state: Array<TodolistDomainType>=initialstate, action: any): Array<TodolistDomainType> => {
-//     switch (action.type) {
-//         case "REMOVE-TODOLIST":{
-//            return state.filter(x => x.id !== action.id)
-//         }
-//         case 'SET-TODOLISTS': {
-//             return action.todolists.map((tl:any )=> ({
-//                 ...tl,
-//                 filter: 'all', entityStatus:"idle"}))}
-//         case "ADD-TODOLIST":{
-//             let newTodoList: TodolistDomainType = {
-//                 id: action.todolistId,
-//                 title: action.title,
-//                 addedDate: "",
-//                 order: 0,
-//                 filter: "all",
-//                 entityStatus:"idle"
-//             }
-//             return ([
-//                 newTodoList, ...state
-//             ])
-//         }
-//         case "CHANGE-TODOLIST-TITLE":{
-//             return state.map(tl => tl.id === action.id ? {...tl, title: action.title} : tl)
-//
-//         }
-//
-//         case "CHANGE-TODOLIST-FILTER":{
-//             let toDo = state.find(x => x.id === action.id);
-//             if (toDo) {
-//                 toDo.filter = action.filter
-//             }
-//             return [...state]
-//         }
-//         case "changeTodolistEntityStatus":{
-//             let toDo = state.find(x => x.id === action.id);
-//             if (toDo) {
-//                 toDo.entityStatus = action.entityStatus
-//             }
-//             return [...state]
-//         }
-//         default:
-//             return state
-//     }
-// }
 
 export const setTodolistsAC =slice.actions.setTodolistsAC
 export const RemoveTodolistAC =slice.actions.RemoveTodolistAC
