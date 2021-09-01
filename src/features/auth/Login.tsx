@@ -1,10 +1,10 @@
 import React from 'react'
 import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, TextField, Button, Grid} from '@material-ui/core'
 import {useFormik} from "formik";
-import {InitialStateAuthType, loginTC} from "./state/auth-reducer";
+import {InitialStateAuthType, loginTC} from "./auth-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootType, store} from "./state/store";
-import {TodolistDomainType} from "./state/todolistsReducer";
+import {AppRootType, store} from "../../app/store";
+import {TodolistDomainType} from "../todolist-list/todolistsReducer";
 import {Redirect} from "react-router-dom";
 
 export const Login = React.memo(() => {

@@ -1,6 +1,6 @@
 import {Dispatch} from "redux";
-import {authAPI} from "../api/todolist-api";
-import {setIsLoggedInAC} from "./auth-reducer";
+import {authAPI} from "../../api/todolist-api";
+import {setIsLoggedInAC} from "../auth/auth-reducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'

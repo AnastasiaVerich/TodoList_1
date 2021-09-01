@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect} from 'react';
 import {v1} from 'uuid';
-import './App.css';
-import {TodoList} from "./Todolist";
-import {AddInputForm} from "./AddItemForm";
+import '../../app/App.css';
+import {TodoList} from "./Todolist/Todolist";
+import {AddInputForm} from "../../components/add-item-form/AddItemForm";
 import {
     AppBar,
     Button,
@@ -21,7 +21,7 @@ import {
     CHANGETODOLISTTITLEAC, createTodolistTC, deleteTodolistTC, fetchTodolistsThunk, FilterType,
     RemoveTodolistAC, setTodolistsAC,
     TodolistDomainType, updateTodolistTC,
-} from "./state/todolistsReducer";
+} from "./todolistsReducer";
 import {
     addTaskAC,
     changeTaskStatusAC,
@@ -29,13 +29,13 @@ import {
     createTasksTC, deleteTaskTC,
     fetchTasksTC,
     removeTaskAC, updateTaskTC
-} from "./state/tasksReducer";
+} from "./tasksReducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootType, store} from "./state/store";
-import {TaskStatus, TaskType, todolistAPI} from "./api/todolist-api";
-import {ErrorSnackbar} from "./ErrorSnackbar";
+import {AppRootType, store} from "../../app/store";
+import {TaskStatus, TaskType, todolistAPI} from "../../api/todolist-api";
+import {ErrorSnackbar} from "../../components/error-snack-bar/ErrorSnackbar";
 import {Redirect, Route} from 'react-router-dom';
-import {Login} from "./Login";
+import {Login} from "../auth/Login";
 
 
 export type tasksType = {

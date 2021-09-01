@@ -6,7 +6,7 @@ import {
     CHANGETODOLISTTITLEAC, FilterType,
     RemoveTodolistAC, TodolistDomainType,
     todolistsReducer
-} from "./todolistsReducer";
+} from "../features/todolist-list/todolistsReducer";
 import {TodolistType} from "../api/todolist-api";
 
 test('correct todolist should be removed', () => {

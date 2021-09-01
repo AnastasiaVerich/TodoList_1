@@ -1,9 +1,8 @@
 import ReactDOM from 'react-dom';
 import './index.css';
-import * as serviceWorker from './serviceWorker';
-import AppWithRedux from "./AppWithRedux";
+import AppWithRedux from "./app/AppWithRedux";
 import {Provider} from "react-redux";
-import {store} from "./state/store";
+import {store} from "./app/store";
 import {BrowserRouter} from "react-router-dom";
 import React from "react";
 
@@ -20,4 +19,4 @@ ReactDOM.render(
     , document.getElementById('root'));
 
 
-serviceWorker.unregister();
+// serviceWorker.unregister();

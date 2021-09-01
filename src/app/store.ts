@@ -1,11 +1,11 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
-import {todolistsReducer} from "./todolistsReducer";
-import {tasksReducer} from "./tasksReducer";
+import {todolistsReducer} from "../features/todolist-list/todolistsReducer";
+import {tasksReducer} from "../features/todolist-list/tasksReducer";
 import thunk from "redux-thunk";
 import thunkMiddleware from 'redux-thunk'
 
-import {appReducer} from "./app-reducer";
-import {authReducer} from "./auth-reducer";
+import {appReducer} from "../features/application/app-reducer";
+import {authReducer} from "../features/auth/auth-reducer";
 import {configureStore} from "@reduxjs/toolkit";
 
 

@@ -1,9 +1,9 @@
-import {store} from "./store";
+import {store} from "../../app/store";
 import {v1} from "uuid";
-import {tasksAPI, todolistAPI, TodolistType} from "../api/todolist-api";
+import {tasksAPI, todolistAPI, TodolistType} from "../../api/todolist-api";
 import {Dispatch} from "redux";
-import {RequestStatusType, setAppStatusAC} from "./app-reducer";
-import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
+import {RequestStatusType, setAppStatusAC} from "../application/app-reducer";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 export type SetTodolistsActionType = {
