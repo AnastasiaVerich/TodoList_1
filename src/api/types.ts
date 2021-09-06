@@ -11,12 +11,8 @@ export type TodolistType = {
     order: number
     title: string
 }
- export type FieldErrorType = { field: string; error: string }
-export type GetTasksResponse = {
-    error: string | null
-    totalCount: number
-    items: TaskType[]
-}
+export type FieldErrorType = { field: string; error: string }
+
 export type ResponseType<D = {}> = {
     resultCode: number
     messages: Array<string>
@@ -63,4 +59,10 @@ export type UpdateTaskModelType = {
     priority: TaskPriorities
     startDate: string
     deadline: string
+}
+
+export type GetTasksResponse = {
+    error: string | null
+    totalCount: number
+    items: TaskType[]
 }

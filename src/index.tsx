@@ -5,6 +5,8 @@ import {Provider} from "react-redux";
 import {store} from "./app/store";
 import {BrowserRouter} from "react-router-dom";
 import React from "react";
+import * as serviceWorker from './serviceWorker'
+
 
 ReactDOM.render(
     <React.StrictMode>
@@ -19,4 +21,4 @@ ReactDOM.render(
     , document.getElementById('root'));
 
 
-// serviceWorker.unregister();
+serviceWorker.unregister();

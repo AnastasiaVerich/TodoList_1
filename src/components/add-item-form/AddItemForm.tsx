@@ -1,45 +1,51 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import {Button, IconButton, TextField} from "@material-ui/core";
+import {IconButton, TextField} from "@material-ui/core";
 
-export  type inputFormType = {
-    addItem: (title: string) => void
-    disabled?: any
+
+export type AddItemFormSubmitHelperType = { setError: (error: string) => void, setTitle: (title: string) => void }
+
+export  type AddItemFormPropsType = {
+    addItem: (title: string, helper: AddItemFormSubmitHelperType) => void
+    disabled?: boolean
 }
 
-export const  AddInputForm= React.memo((props: inputFormType)=> {
+export const AddInputForm = React.memo((props: AddItemFormPropsType) => {
 
     let [title, setTitle] = useState("")
-    let [error, setError] = useState(false)
+    let [error, setError] = useState<string | null>(null)
+
+    const addItemHandler = async () => {
+        if (title.trim() !== "") {
+            props.addItem(title, {setError, setTitle})
+        } else {
+            setError('Title is Required')
+        }
+    }
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if(error!==false){return setError(false)}
+        if (error !== null) {
+            return setError(null)
+        }
         if (e.charCode === 13) {
-            addTask()
+            addItemHandler()
         }
     }
 
-    const addTask = () => {
-        if (title.trim() === "") {
-            return setError(true)
-        }
-        props.addItem(title.trim())
-        setTitle("")
-
-    }
 
     return (<div>
             <TextField
                 variant={"outlined"}
+                disabled={props.disabled}
+                error={!!error}
                 value={title}
                 onChange={onChangeHandler}
                 onKeyPress={onKeyPressHandler}
-                error={!!error}
                 label={"Title"}
                 helperText={error}
             />
-            <IconButton onClick={addTask}  color={"primary"} disabled={props.disabled}>
+            <IconButton onClick={addItemHandler} color={"primary"} disabled={props.disabled}>
                 +
             </IconButton>
         </div>

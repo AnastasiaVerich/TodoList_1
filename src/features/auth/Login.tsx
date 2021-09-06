@@ -5,6 +5,9 @@ import { loginTC} from "./auth-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootType} from "../../app/store";
 import {Redirect} from "react-router-dom";
+import {useAppDispatch} from "../../utils/redux-utils";
+import {selectIsLoggedIn} from "./selectors";
+import {authActions} from "./index";
 
 
 type FormValuesType = {
@@ -13,12 +16,11 @@ type FormValuesType = {
     rememberMe: boolean
 }
 export const Login = () => {
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
-    const isLoggedIn= useSelector<AppRootType, boolean>((state)=>state.auth.isLoggedIn)
+    const isLoggedIn= useSelector(selectIsLoggedIn)
 
     const formik = useFormik({
-
         validate: (values) => {
             if (!values.email) {
                 return {
@@ -37,8 +39,13 @@ export const Login = () => {
             rememberMe: false
         },
         onSubmit: async (values: FormValuesType, formikHelpers: FormikHelpers<FormValuesType>) => {
-            dispatch(loginTC({email:values.email,password: values.password,rememberMe: values.rememberMe,captcha: ""}))
-            formik.resetForm()
+            const resultAction = await dispatch(authActions.loginTC(values))
+            if (loginTC.rejected.match(resultAction)){
+                if (resultAction.payload?.fieldsErrors?.length){
+                    const error = resultAction.payload?.fieldsErrors[0]
+                    formikHelpers.setFieldError(error.field, error.error)
+                }
+            }
         },
     })
 
@@ -67,24 +74,24 @@ export const Login = () => {
 
                         {...formik.getFieldProps('email')}
 
+/*
                         onBlur={formik.handleBlur}
+*/
                     />
-                    { formik.touched.email &&
-                        formik.errors.email ? <div style={{color: 'red'}}>{formik.errors.email}</div>: null}
+                    {  formik.errors.email ? <div style={{color: 'red'}}>{formik.errors.email}</div>: null}
                     <TextField
                         type="password"
                         label="Password"
                         margin="normal"
                         {...formik.getFieldProps('password')}
-
-                        onBlur={formik.handleBlur}
+                        // onBlur={formik.handleBlur}
                     />
-                    { formik.touched.password &&
-                    formik.errors.password ? <div style={{color: 'red'}}>{formik.errors.password}</div>: null}
+                    {  formik.errors.password ? <div style={{color: 'red'}}>{formik.errors.password}</div>: null}
                     <FormControlLabel
                         label={'Remember me'}
                         control={<Checkbox />}
                         {...formik.getFieldProps('rememberMe')}
+                        checked={formik.values.rememberMe}
                     />
                     <Button type={'submit'} variant={'contained'} color={'primary'}>Login</Button>
                 </FormGroup>

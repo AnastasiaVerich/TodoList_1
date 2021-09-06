@@ -129,7 +129,7 @@ test('status of specified task should be changed', () => {
     expect(endState["todolistId2"][1].title).toBe("milk");
 });
 
-test('title of specified task should be changed', () => {
+test('value of specified task should be changed', () => {
     const startState: tasksType = {
         "todolistId1": [
             { id: "1", title: "CSS", status: TaskStatus.New, addedDate:"", order:0

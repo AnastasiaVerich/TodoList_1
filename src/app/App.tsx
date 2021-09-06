@@ -1,43 +1,43 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {
     AppBar,
-    Button, CircularProgress,
+    Button,
+    CircularProgress,
     Container,
-    Grid,
     IconButton,
     LinearProgress,
     MenuItem,
     Toolbar,
     Typography
 } from "@material-ui/core";
-import {AppRootType, store} from "./store";
+import {TodolistList} from "../features/todolist-list/";
 import {ErrorSnackbar} from "../components/error-snack-bar/ErrorSnackbar";
+import {useSelector} from "react-redux";
+import {appActions} from "../features/application";
+
 import {Redirect, Route, Switch} from 'react-router-dom';
-import {Login} from "../features/auth/Login";
-import TodolistList from "../features/todolist-list/TodolistList";
-import {fetchTodolistsThunk} from "../features/todolist-list/todolistsReducer";
-import {useDispatch, useSelector} from "react-redux";
-import { logoutTC} from "../features/auth/auth-reducer";
-import {initializeAppTC} from "../features/application/app-reducer";
-import {TaskType} from "../api/types";
+import {authActions, authSelectors, Login} from "../features/auth";
+import {selectIsInitialized, selectStatus} from "../features/application/selectors";
+import {useActions} from "../utils/redux-utils";
 
 
+const App = () => {
+    const status = useSelector(selectStatus)
+    const isLoggedIn = useSelector(authSelectors.selectIsLoggedIn)
+    const isInitialized = useSelector(selectIsInitialized)
 
+    const {logoutTC} = useActions(authActions)
+    const {initializeAppTC} = useActions(appActions)
 
-const App= React.memo(()=> {
-    const status= useSelector<AppRootType>((state)=>state.app.status)
-
-    useEffect(()=>{
-       dispatch(initializeAppTC())
+    useEffect(() => {
+        initializeAppTC()
     }, [])
-    const dispatch = useDispatch()
 
-    const isloaded= useSelector<AppRootType, boolean>((state)=>state.app.isLoaded)
-    const isLoggedIn= useSelector<AppRootType, boolean>((state)=>state.auth.isLoggedIn)
-
-
-    if (!isLoggedIn && !isloaded) {
+    const logoutHandler = useCallback(() => {
+        logoutTC()
+    }, [])
+    if (isInitialized ) {
         return <div
             style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
             <CircularProgress/>
@@ -55,20 +55,23 @@ const App= React.memo(()=> {
                     <Typography variant="h6">
                         My App
                     </Typography>
-                    {  <Button color="inherit" onClick={()=>{dispatch(logoutTC())}}>Log out</Button>}
+                    {isLoggedIn && <Button color="inherit"
+                                           onClick={logoutHandler}>Log out</Button>}
                 </Toolbar>
                 {status === 'loading' && <LinearProgress/>}
             </AppBar>
             <Container fixed>
-                <Switch>
+                <Route exact path={'/'} render={() => <TodolistList/>}/>
+                <Route path={'/auth'} render={() => <Login/>}/>
+               {/* <Switch>
                     <Route exact path={'/'} render={() => <TodolistList/>}/>
-                    <Route exact path={'/login'} render={() => <Login/>}/>
+                    <Route exact path={'/auth'} render={() => <Login/>}/>
                     <Route path={'/404'} render={() => <h1>404: PAGE NOT FOUND</h1>}/>
                     <Redirect from={'*'} to={'/404'}/>
-                </Switch>
+                </Switch>*/}
             </Container>
         </div>
     );
-})
+}
 
 export default App;
