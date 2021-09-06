@@ -1,13 +1,13 @@
 import {authAPI} from "../../api/todolist-api";
-import {setIsLoggedInAC} from "../auth/auth-reducer";
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {appCommonActions} from "../common-actions/App";
+import { authActions } from "../auth";
 
 
 export const initializeAppTC = createAsyncThunk('app/initializeApp', async (param, thunkAPI) => {
     const res = await authAPI.me()
     if (res.data.resultCode === 0) {
-        thunkAPI.dispatch(setIsLoggedInAC({value: true}))
+        thunkAPI.dispatch(authActions.setIsLoggedInAC({value: true}))
     } else {
 
     }
@@ -26,12 +26,12 @@ export const slice = createSlice({
         error: null as string | null,
         isInitialized: false,
         isLoaded: false
-    },
+    } as InitialStateType,
     reducers: {},
     extraReducers: (builder) => {
         builder
             .addCase(initializeAppTC.fulfilled, (state, action) => {
-                state.isLoaded = true
+                state.isInitialized = true
             })
             .addCase(appCommonActions.setAppStatus, (state, action) => {
                 state.status = action.payload.status
@@ -44,12 +44,8 @@ export const slice = createSlice({
 
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
-/////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////
 
-export type SetAppErrorACType = {
-    type: "APP/SET-ERROR"
-    error: string | null
-}
 
 export type InitialStateType = {
     // происходит ли сейчас взаимодействие с сервером

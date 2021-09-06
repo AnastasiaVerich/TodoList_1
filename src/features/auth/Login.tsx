@@ -3,7 +3,6 @@ import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, TextField
 import {FormikHelpers, useFormik} from "formik";
 import { loginTC} from "./auth-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootType} from "../../app/store";
 import {Redirect} from "react-router-dom";
 import {useAppDispatch} from "../../utils/redux-utils";
 import {selectIsLoggedIn} from "./selectors";

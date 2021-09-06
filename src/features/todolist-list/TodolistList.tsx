@@ -3,29 +3,27 @@ import '../../app/App.css';
 import {TodoList} from "./Todolist/Todolist";
 import {AddInputForm, AddItemFormSubmitHelperType} from "../../components/add-item-form/AddItemForm";
 import {Container, Grid, Paper} from "@material-ui/core";
-import {
-    CHANGETODOLISTFILTERAC,
-    FilterType,
-    TodolistDomainType,
-} from "./todolistsReducer";
-import {useDispatch, useSelector} from "react-redux";
+import {TodolistDomainType,} from "./todolistsReducer";
+import {useSelector} from "react-redux";
 import {AppRootType} from "../../app/store";
 import {Redirect} from 'react-router-dom';
-import {TaskStatus, TaskType} from "../../api/types";
+import {TaskType} from "../../api/types";
 import {TasksStateType} from "./tasksReducer";
 import {selectIsLoggedIn} from "../auth/selectors";
 import {useActions, useAppDispatch} from "../../utils/redux-utils";
 import {todolistsActions} from "./index";
+import {selectIsInitialized} from "../application/selectors";
 
 
 export type tasksType = {
     [key: string]: TaskType[]
 }
 
-function TodolistList() {
+const TodolistList = () => {
     const todolists = useSelector<AppRootType, Array<TodolistDomainType>>(state => state.todolists)
     const tasksArray = useSelector<AppRootType, TasksStateType>(state => state.tasks)
     const isLoggedIn = useSelector(selectIsLoggedIn)
+    const isInitialized = useSelector(selectIsInitialized)
 
     const dispatch = useAppDispatch()
 
@@ -106,7 +104,7 @@ function TodolistList() {
     //     },[])
 
     */
-    if (!isLoggedIn) {
+    if (!isLoggedIn ) {
         return <Redirect to={'/auth'}/>
     }
 
@@ -123,12 +121,12 @@ function TodolistList() {
                     ((x) => {
                         //помещаем в переменную все задачи для тудулиста(по одинаковым айди)
                         let allTodolistTasks = tasksArray[x.id];
-                       /* if (task.filter === "complited") {
-                            arrayTasksForONEtodolist = arrayTasksForONEtodolist.filter(t => t.status === TaskStatus.Complited)
-                        }
-                        if (task.filter === "active") {
-                            arrayTasksForONEtodolist = arrayTasksForONEtodolist.filter(t => t.status === TaskStatus.New)
-                        }*/
+                        /* if (task.filter === "complited") {
+                             arrayTasksForONEtodolist = arrayTasksForONEtodolist.filter(t => t.status === TaskStatus.Complited)
+                         }
+                         if (task.filter === "active") {
+                             arrayTasksForONEtodolist = arrayTasksForONEtodolist.filter(t => t.status === TaskStatus.New)
+                         }*/
 
                         return <Grid item>
                             <Paper style={{padding: "10px"}}>

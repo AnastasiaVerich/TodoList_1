@@ -16,13 +16,11 @@ type PropsType = {
     tasks: Array<TaskType>
 }
 
-
-export const TodoList = React.memo((props: PropsType) => {
+export const TodoList = React.memo(function (props: PropsType) {
     const dispatch = useAppDispatch()
     const {fetchTasksTC} = useActions(tasksActions)
     const {
         CHANGETODOLISTFILTERAC,
-        changeTodolistEntityStatusAC,
         updateTodolistTC,
         deleteTodolistTC
     } = useActions(todolistsActions)
@@ -85,7 +83,8 @@ export const TodoList = React.memo((props: PropsType) => {
         </h3>
         <AddInputForm addItem={addTask} disabled={props.todolist.entityStatus === "loading"}/>
         <div>
-            {arrayTasksForONEtodolist.map(x => <Task
+           {
+               arrayTasksForONEtodolist.map(x => <Task
                                                      task={x}
                                                      todolistID={props.todolist.id}
                                                      key={x.id}/>)

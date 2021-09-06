@@ -37,7 +37,7 @@ const App = () => {
     const logoutHandler = useCallback(() => {
         logoutTC()
     }, [])
-    if (isInitialized ) {
+    if (!isInitialized ) {
         return <div
             style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
             <CircularProgress/>

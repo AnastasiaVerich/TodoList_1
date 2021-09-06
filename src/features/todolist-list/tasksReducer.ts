@@ -113,10 +113,13 @@ export const slice = createSlice({
 
         });
         builder.addCase(deleteTaskTC.fulfilled, (state, action) => {
+            console.log(state)
+
             const tasks = state[action.payload.todolistId]
             const index = tasks.findIndex((x: any) => x.id === action.payload.taskId)
             if (index > -1) {
                 tasks.splice(index, 1)
+
             }
         });
         builder.addCase(createTasksTC.fulfilled, (state, action) => {
