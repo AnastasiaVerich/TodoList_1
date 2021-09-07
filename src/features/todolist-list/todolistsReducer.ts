@@ -25,25 +25,6 @@ const fetchTodolistsThunk = createAsyncThunk<{ todolists: TodolistType[] }, unde
     }
 
 })
-/*const _deleteTodolistTC = createAsyncThunk<{ id: string }, string, ThunkError>('todolists/deleteTodolist', async (todolistId, thunkAPI) => {
-    thunkAPI.dispatch(setAppStatus({status: 'loading'}))
-    thunkAPI.dispatch(changeTodolistEntityStatusAC({id: todolistId, entityStatus: 'loading'}))
-    try {
-        const res = await todolistAPI.deleteTodolist(todolistId)
-        if (res.data.resultCode === 0) {
-            thunkAPI.dispatch(setAppStatus({status: 'succeeded'}))
-            return {id: todolistId}
-        } else {
-            return handleAsyncServerAppError(res.data, thunkAPI, false)
-
-        }
-
-    } catch (error) {
-        return handleAsyncServerNetworkError(error, thunkAPI, false)
-
-    }
-
-})*/
 const deleteTodolistTC = createAsyncThunk<{ id: string }, string, ThunkError>('todolists/deleteTodolist', async (todolistId, {
     dispatch,
     rejectWithValue
@@ -65,14 +46,16 @@ const createTodolistTC = createAsyncThunk<{ todolist: TodolistType }, string, Th
             thunkAPI.dispatch(setAppStatus({status: 'succeeded'}))
             return {todolist: res.data.data.item}
         } else {
-            return handleAsyncServerAppError(res.data, thunkAPI, false)
+            return handleAsyncServerAppError(res.data, thunkAPI)
         }
     } catch (error) {
-        return handleAsyncServerNetworkError(error, thunkAPI, false)
+        return handleAsyncServerNetworkError(error, thunkAPI)
     }
 })
 
 const updateTodolistTC = createAsyncThunk('todolists/updateTodolist', async (param: { id: string, title: string }, thunkAPI) => {
+    thunkAPI.dispatch(setAppStatus({status: 'loading'}))
+
     try {
         let res = await todolistAPI.updateTodolist(param.id, param.title)
         if (res.data.resultCode === 0) {
@@ -82,7 +65,7 @@ const updateTodolistTC = createAsyncThunk('todolists/updateTodolist', async (par
             return handleAsyncServerAppError(res.data, thunkAPI)
         }
     } catch (error) {
-        return handleAsyncServerNetworkError(error, thunkAPI, false)
+        return handleAsyncServerNetworkError(error, thunkAPI)
     }
 })
 export const asyncActions = {

@@ -30,31 +30,36 @@ const {setAppStatus} = appCommonActions
             thunkAPI.dispatch(appCommonActions.setAppStatus({status: 'succeeded'}))
             return res.data.data.item
         } else {
-            handleAsyncServerAppError(res.data, thunkAPI, false)
-            return thunkAPI.rejectWithValue({errors: res.data.messages, fieldsErrors: res.data.fieldsErrors})
+        return     handleAsyncServerAppError(res.data, thunkAPI)
         }
     } catch (err) {
-        return handleAsyncServerNetworkError(err, thunkAPI, false)
+
+        return handleAsyncServerNetworkError(err, thunkAPI)
     }
 })
- const deleteTaskTC = createAsyncThunk<{ taskId: string, todolistId: string }, { taskId: string, todolistId: string }, ThunkError>('tasks/deleteTask', async (param, thunkAPI) => {
-
+ const deleteTaskTC = createAsyncThunk<{ taskId: string, todolistId: string }, { taskId: string, todolistId: string }, ThunkError>('tasks/deleteTask',
+     async (param, thunkAPI) => {
+     thunkAPI.dispatch(setAppStatus({status: 'loading'}))
     try {
         const res = await tasksAPI.deleteTask(param.todolistId, param.taskId)
         if (res.data.resultCode === 0) {
-            return {todolistId: param.todolistId, taskID: param.taskId}
+            thunkAPI.dispatch(setAppStatus({status: 'succeeded'}))
+            return {todolistId: param.todolistId, taskId: param.taskId}
 
         } else {
-            handleAsyncServerAppError(res.data, thunkAPI, false)
-            return thunkAPI.rejectWithValue({errors: res.data.messages, fieldsErrors: res.data.fieldsErrors})
+         return    handleAsyncServerAppError(res.data, thunkAPI)
         }
     } catch (err) {
-        return handleAsyncServerNetworkError(err, thunkAPI, false)
+
+        return handleAsyncServerNetworkError(err, thunkAPI)
     }
 
 
 })
- const updateTaskTC = createAsyncThunk('tasks/updateTask', async (param: { taskId: string, model: UpdateDomainTaskModelType, todolistId: string }, thunkAPI) => {
+
+
+
+const updateTaskTC = createAsyncThunk('tasks/updateTask', async (param: { taskId: string, model: UpdateDomainTaskModelType, todolistId: string }, thunkAPI) => {
 
     const state = thunkAPI.getState() as AppRootType
 
@@ -73,11 +78,13 @@ const {setAppStatus} = appCommonActions
         ...param.model
     }
     thunkAPI.dispatch(setAppStatus({status: 'loading'}))
-    const res = await tasksAPI.updateTask(param.todolistId, param.taskId, apiModel)
-    try {
+    try {    const res = await tasksAPI.updateTask(param.todolistId, param.taskId, apiModel)
+
         if (res.data.resultCode === 0) {
+            thunkAPI.dispatch(appCommonActions.setAppStatus({status: 'succeeded'}))
             return param
         } else {
+
             return handleAsyncServerAppError(res.data, thunkAPI)
         }
     } catch (error) {
@@ -113,8 +120,6 @@ export const slice = createSlice({
 
         });
         builder.addCase(deleteTaskTC.fulfilled, (state, action) => {
-            console.log(state)
-
             const tasks = state[action.payload.todolistId]
             const index = tasks.findIndex((x: any) => x.id === action.payload.taskId)
             if (index > -1) {

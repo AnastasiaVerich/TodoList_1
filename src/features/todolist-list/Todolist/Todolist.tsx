@@ -18,7 +18,7 @@ type PropsType = {
 
 export const TodoList = React.memo(function (props: PropsType) {
     const dispatch = useAppDispatch()
-    const {fetchTasksTC} = useActions(tasksActions)
+    const {fetchTasksTC, createTasksTC} = useActions(tasksActions)
     const {
         CHANGETODOLISTFILTERAC,
         updateTodolistTC,
@@ -30,12 +30,16 @@ export const TodoList = React.memo(function (props: PropsType) {
     }, [])
 
     const addTask = useCallback(async (title: string, helper: AddItemFormSubmitHelperType) => {
+        //const result = await createTasksTC({title: title, todolistId: props.todolist.id})
+
         let thunk = tasksActions.createTasksTC({title: title, todolistId: props.todolist.id})
         const result = await dispatch(thunk)
         if (tasksActions.createTasksTC.rejected.match(result)) {
             if (result.payload?.errors?.length) {
                 const errorMessage = result.payload?.errors[0]
                 helper.setError(errorMessage)
+                console.log(errorMessage)
+
             } else {
                 helper.setError('Some error occured')
             }

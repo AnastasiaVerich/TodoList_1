@@ -20,7 +20,7 @@ export function ErrorSnackbar() {
         }
         setAppError({error: null})
     }
-
+//если мы измение в стейте еррор не на ноль, то открывается это окно
     return (
         <Snackbar open={error != null} autoHideDuration={5000} onClose={handleClose}>
             <Alert onClose={handleClose} severity="error">

@@ -4,6 +4,7 @@ import {EditSpan} from "../../../../components/editable-span/EditSpan";
 import {TaskStatus, TaskType} from "../../../../api/types";
 import {useActions} from "../../../../utils/redux-utils";
 import {tasksActions} from "../../index";
+import {Delete} from "@material-ui/icons";
 
 export type TASKStype = {
 
@@ -13,6 +14,7 @@ export type TASKStype = {
 }
 export const Task = React.memo((props: TASKStype) => {
     const {deleteTaskTC, updateTaskTC} = useActions(tasksActions)
+
     const onClikHeader = useCallback(() => deleteTaskTC({taskId: props.task.id, todolistId: props.todolistID}),
         [props.task.id, props.todolistID])
 
@@ -43,7 +45,7 @@ export const Task = React.memo((props: TASKStype) => {
             <EditSpan value={props.task.title}
                       onChange={onChangeTitle}/>
             <IconButton onClick={onClikHeader}>
-                x
+                <Delete fontSize={'small'}/>
             </IconButton>
 
         </div>)
