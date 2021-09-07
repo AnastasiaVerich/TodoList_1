@@ -61,14 +61,12 @@ const App = () => {
                 {status === 'loading' && <LinearProgress/>}
             </AppBar>
             <Container fixed>
-                <Route exact path={'/'} render={() => <TodolistList/>}/>
-                <Route path={'/auth'} render={() => <Login/>}/>
-               {/* <Switch>
+
+                <Switch>
                     <Route exact path={'/'} render={() => <TodolistList/>}/>
-                    <Route exact path={'/auth'} render={() => <Login/>}/>
-                    <Route path={'/404'} render={() => <h1>404: PAGE NOT FOUND</h1>}/>
-                    <Redirect from={'*'} to={'/404'}/>
-                </Switch>*/}
+                    <Route path={'/auth'} render={() => <Login/>}/>
+                    <Route path={'*'} render={() => <TodolistList/>}/>
+                </Switch>
             </Container>
         </div>
     );
